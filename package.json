@@ -1,13 +1,20 @@
 {
-  "name": "react-template-vite-scaffold",
+  "name": "react-template",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
@@ -50,5 +57,14 @@
     "typescript-eslint": "^8.59.4",
     "vite": "^8.0.12",
     "vitest": "^4.1.7"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md,yml,yaml}": [
+      "prettier --write"
+    ]
   }
 }
