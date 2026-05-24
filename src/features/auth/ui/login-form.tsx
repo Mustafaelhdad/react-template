@@ -1,4 +1,5 @@
 import { LogIn } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import { notify, useZodForm } from '@/shared/lib'
 import { Button, FormError, FormField } from '@/shared/ui'
@@ -12,6 +13,7 @@ type LoginFormProps = {
 }
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
+  const { t } = useTranslation()
   const setSession = useAuthStore((state) => state.setSession)
   const form = useZodForm(loginSchema, {
     defaultValues: {
@@ -25,10 +27,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       const session = await login(values)
 
       setSession(session)
-      notify.success('Signed in successfully')
+      notify.success(t('common.signedInSuccessfully'))
       onSuccess?.()
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unable to sign in'
+      const message = error instanceof Error ? error.message : t('common.unableToSignIn')
 
       form.setError('root', { message })
       notify.error(message)
@@ -40,7 +42,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       <FormField
         control={form.control}
         name="email"
-        label="Email"
+        label={t('login.email')}
         inputProps={{
           autoComplete: 'email',
           placeholder: 'demo@example.com',
@@ -50,7 +52,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       <FormField
         control={form.control}
         name="password"
-        label="Password"
+        label={t('login.password')}
         inputProps={{
           type: 'password',
           autoComplete: 'current-password',
@@ -62,7 +64,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
 
       <Button type="submit" disabled={form.formState.isSubmitting} className="w-full">
         <LogIn className="size-4" aria-hidden="true" />
-        {form.formState.isSubmitting ? 'Signing in...' : 'Sign in'}
+        {form.formState.isSubmitting ? t('common.signingIn') : t('common.signIn')}
       </Button>
     </form>
   )

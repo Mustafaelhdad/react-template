@@ -1,10 +1,12 @@
 import { LayoutDashboard, LogIn, LogOut, PanelsTopLeft } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 import { useAuthStore } from '@/features/auth'
 import { ROUTES } from '@/shared/config'
 import { notify } from '@/shared/lib'
 import { Button, buttonVariants } from '@/shared/ui'
+import { LanguageSwitcher } from '@/widgets/language-switcher'
 import { ThemeToggle } from '@/widgets/theme-toggle'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -17,13 +19,14 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 
 export function Navbar() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const user = useAuthStore((state) => state.user)
   const logout = useAuthStore((state) => state.logout)
 
   const handleSignOut = () => {
     logout()
-    notify.info('Signed out')
+    notify.info(t('common.signedOut'))
     navigate(ROUTES.login)
   }
 
@@ -37,20 +40,21 @@ export function Navbar() {
           <span className="grid size-8 place-items-center rounded-md bg-emerald-600 text-white">
             <PanelsTopLeft className="size-4" aria-hidden="true" />
           </span>
-          React Template
+          {t('common.appName')}
         </Link>
 
         <nav className="flex items-center gap-1">
           <NavLink to={ROUTES.home} end className={navLinkClass}>
-            Home
+            {t('nav.home')}
           </NavLink>
           <NavLink to={ROUTES.dashboard} className={navLinkClass}>
             <LayoutDashboard className="size-4" aria-hidden="true" />
-            Dashboard
+            {t('nav.dashboard')}
           </NavLink>
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <ThemeToggle />
           {isAuthenticated ? (
             <>
@@ -59,13 +63,13 @@ export function Navbar() {
               </span>
               <Button variant="secondary" size="sm" onClick={handleSignOut}>
                 <LogOut className="size-4" aria-hidden="true" />
-                Sign out
+                {t('common.signOut')}
               </Button>
             </>
           ) : (
             <Link to={ROUTES.login} className={buttonVariants({ size: 'sm' })}>
               <LogIn className="size-4" aria-hidden="true" />
-              Sign in
+              {t('common.signIn')}
             </Link>
           )}
         </div>

@@ -19,10 +19,16 @@ npm install
 npm run init       # rename the project (prompts for a name)
 # or skip demos:
 # npm run init -- --name="My App" --clean
+# or also strip translations:
+# npm run init -- --name="My App" --no-i18n
 ```
 
 `npm run init` rewrites the package name, page title, env defaults, and the
 auth storage key. With `--clean` it also deletes the demo views and widgets.
+With `--no-i18n` it uninstalls react-i18next, deletes the i18n config /
+direction hook / language switcher, and rewrites every `t('foo.bar')` back
+to its English literal so the app builds without translations — run `npm
+install` afterwards to drop the packages from `node_modules`.
 
 ## Start Development
 
@@ -31,6 +37,13 @@ npm install
 cp .env.example .env
 npm run dev
 ```
+
+## Feature Docs
+
+Per-feature usage guides live in [docs/](docs/README.md):
+
+- [i18n & RTL](docs/i18n.md) — translations, language switcher, RTL,
+  and the `--no-i18n` opt-out.
 
 ## Quality Checks
 

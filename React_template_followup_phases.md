@@ -168,7 +168,7 @@ Acceptance:
 
 ## Phase 16: Internationalization (i18n) + RTL
 
-Status: Pending
+Status: Completed
 
 Tasks:
 
@@ -180,11 +180,18 @@ Tasks:
   `dir` attribute on `<html>`.
 - Add language switcher widget.
 - Verify all primitives render correctly in RTL.
+- Extend [scripts/use-template.mjs](scripts/use-template.mjs) with a
+  `--no-i18n` flag so projects that don't need translations start in one
+  command: uninstalls the i18n deps, deletes the i18n config / direction
+  hook / language switcher, unwraps the providers, and codemods every
+  `t('foo.bar')` back to the English literal from `en.json`.
 
 Acceptance:
 
 - Switching language updates copy + direction immediately.
 - Login + dashboard views render correctly in RTL.
+- `npm run init -- --name="X" --no-i18n` produces an app without i18n
+  packages or imports; `npm install && npm run lint && npm run type-check && npm run build` all succeed on the result.
 
 ---
 
@@ -601,6 +608,13 @@ These don't need their own phase but should land alongside relevant work:
   (primitives, views, widgets), spot-check at 320 / 768 / 1280 before
   marking the phase done. Phase 26 owns the formal audit, but no phase
   should ship a regression that Phase 26 then has to clean up.
+- **Docs as we go**: every phase that ships a user-facing feature must
+  land a short page under [docs/](docs/) and link it from
+  [docs/README.md](docs/README.md). Aim for ~1–3 paragraphs + one snippet
+  covering: where things live, the canonical usage pattern, how to extend,
+  and the opt-out path (when one exists). Don't defer docs to a final
+  pass — the feature is fresh in mind now, and Phase 25 (publish) only
+  does a polish/overview sweep, not a backfill.
 
 ---
 
