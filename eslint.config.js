@@ -86,5 +86,14 @@ export default defineConfig([
       'react-refresh/only-export-components': 'off',
     },
   },
+  {
+    // shared/ui re-exports headless primitives (Radix) where the static
+    // analyzer can't tell the const is a React component. The rule is fine
+    // to skip here — these files are wrappers, not stateful screens.
+    files: ['src/shared/ui/**/*.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
   eslintConfigPrettier,
 ])

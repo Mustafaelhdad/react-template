@@ -74,7 +74,7 @@ Acceptance:
 
 ## Phase 13: UI Primitives Expansion
 
-Status: Pending
+Status: Completed
 
 Current primitives: `Button`, `Input`, `Card`, `FormError`, `LoadingScreen`. The
 following are needed in nearly every project — add them as headless,
@@ -121,7 +121,7 @@ Acceptance:
 
 ## Phase 14: Forms Infrastructure
 
-Status: Pending
+Status: Completed
 
 Tasks:
 

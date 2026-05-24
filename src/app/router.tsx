@@ -5,6 +5,7 @@ import { DashboardView } from '@/views/dashboard'
 import { HomeView } from '@/views/home'
 import { LoginView } from '@/views/login'
 import { NotFoundView } from '@/views/not-found'
+import { UiKitView } from '@/views/ui-kit'
 import { DashboardLayout } from '@/widgets/dashboard-layout'
 import { MainLayout } from '@/widgets/main-layout'
 
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: 'login',
         element: <LoginView />,
+      },
+      {
+        path: 'ui-kit',
+        element: <UiKitView />,
       },
       {
         path: 'dashboard',

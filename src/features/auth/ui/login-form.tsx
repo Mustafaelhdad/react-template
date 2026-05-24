@@ -1,12 +1,10 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import { LogIn } from 'lucide-react'
-import { useForm } from 'react-hook-form'
 
-import { notify } from '@/shared/lib'
-import { Button, FormError, Input } from '@/shared/ui'
+import { notify, useZodForm } from '@/shared/lib'
+import { Button, FormError, FormField } from '@/shared/ui'
 
 import { login } from '../api/login'
-import { loginSchema, type LoginFormValues } from '../lib/login-schema'
+import { loginSchema } from '../lib/login-schema'
 import { useAuthStore } from '../model/auth-store'
 
 type LoginFormProps = {
@@ -15,20 +13,14 @@ type LoginFormProps = {
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
   const setSession = useAuthStore((state) => state.setSession)
-  const {
-    formState: { errors, isSubmitting },
-    handleSubmit,
-    register,
-    setError,
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useZodForm(loginSchema, {
     defaultValues: {
       email: 'demo@example.com',
       password: 'password',
     },
   })
 
-  const onSubmit = handleSubmit(async (values) => {
+  const onSubmit = form.handleSubmit(async (values) => {
     try {
       const session = await login(values)
 
@@ -38,45 +30,39 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unable to sign in'
 
-      setError('root', { message })
+      form.setError('root', { message })
       notify.error(message)
     }
   })
 
   return (
     <form onSubmit={onSubmit} className="grid gap-4">
-      <div className="grid gap-2">
-        <label htmlFor="email" className="text-sm font-medium text-zinc-700">
-          Email
-        </label>
-        <Input
-          id="email"
-          autoComplete="email"
-          placeholder="demo@example.com"
-          {...register('email')}
-        />
-        <FormError message={errors.email?.message} />
-      </div>
+      <FormField
+        control={form.control}
+        name="email"
+        label="Email"
+        inputProps={{
+          autoComplete: 'email',
+          placeholder: 'demo@example.com',
+        }}
+      />
 
-      <div className="grid gap-2">
-        <label htmlFor="password" className="text-sm font-medium text-zinc-700">
-          Password
-        </label>
-        <Input
-          id="password"
-          type="password"
-          autoComplete="current-password"
-          placeholder="password"
-          {...register('password')}
-        />
-        <FormError message={errors.password?.message} />
-      </div>
+      <FormField
+        control={form.control}
+        name="password"
+        label="Password"
+        inputProps={{
+          type: 'password',
+          autoComplete: 'current-password',
+          placeholder: 'password',
+        }}
+      />
 
-      <FormError message={errors.root?.message} />
+      <FormError message={form.formState.errors.root?.message} />
 
-      <Button type="submit" disabled={isSubmitting} className="w-full">
+      <Button type="submit" disabled={form.formState.isSubmitting} className="w-full">
         <LogIn className="size-4" aria-hidden="true" />
-        {isSubmitting ? 'Signing in...' : 'Sign in'}
+        {form.formState.isSubmitting ? 'Signing in...' : 'Sign in'}
       </Button>
     </form>
   )

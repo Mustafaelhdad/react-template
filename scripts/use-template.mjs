@@ -147,6 +147,7 @@ async function main() {
     const toRemove = [
       'src/views/home',
       'src/views/dashboard',
+      'src/views/ui-kit',
       'src/widgets/app-sidebar',
       'src/widgets/dashboard-layout',
     ]
