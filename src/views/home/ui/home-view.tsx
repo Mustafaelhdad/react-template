@@ -2,6 +2,7 @@ import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 import { ROUTES } from '@/shared/config'
+import { Card, CardContent, CardHeader, CardTitle, buttonVariants } from '@/shared/ui'
 
 const capabilities = [
   'Routing shell',
@@ -27,25 +28,21 @@ export function HomeView() {
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Link
-            to={ROUTES.dashboard}
-            className="inline-flex items-center gap-2 rounded-md bg-zinc-950 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800"
-          >
+          <Link to={ROUTES.dashboard} className={buttonVariants()}>
             Open dashboard
             <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
-          <Link
-            to={ROUTES.login}
-            className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100"
-          >
+          <Link to={ROUTES.login} className={buttonVariants({ variant: 'secondary' })}>
             View login
           </Link>
         </div>
       </div>
 
-      <div className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-zinc-950">Template shell</h2>
-        <div className="mt-5 grid gap-3">
+      <Card>
+        <CardHeader>
+          <CardTitle>Template shell</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-3">
           {capabilities.map((capability) => (
             <div
               key={capability}
@@ -55,8 +52,8 @@ export function HomeView() {
               <span className="text-sm font-medium text-zinc-700">{capability}</span>
             </div>
           ))}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </section>
   )
 }

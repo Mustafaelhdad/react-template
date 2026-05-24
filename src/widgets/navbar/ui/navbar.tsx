@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 import { demoSession } from '@/features/auth'
 import { ROUTES } from '@/shared/config'
+import { Button, buttonVariants } from '@/shared/ui'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   [
@@ -45,19 +46,12 @@ export function Navbar() {
         </nav>
 
         {isAuthenticated ? (
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className="inline-flex items-center gap-2 rounded-md border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100"
-          >
+          <Button variant="secondary" size="sm" onClick={handleSignOut}>
             <LogOut className="size-4" aria-hidden="true" />
             Sign out
-          </button>
+          </Button>
         ) : (
-          <Link
-            to={ROUTES.login}
-            className="inline-flex items-center gap-2 rounded-md bg-zinc-950 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800"
-          >
+          <Link to={ROUTES.login} className={buttonVariants({ size: 'sm' })}>
             <LogIn className="size-4" aria-hidden="true" />
             Sign in
           </Link>
