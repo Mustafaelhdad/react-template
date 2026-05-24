@@ -3,6 +3,21 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "Reusable React + Vite + TypeScript template with feature-sliced architecture, Tailwind, React Query, Zustand, Vitest, ESLint boundaries, Husky, and GitHub Actions.",
+  "keywords": [
+    "react",
+    "vite",
+    "typescript",
+    "tailwindcss",
+    "template",
+    "feature-sliced",
+    "react-query",
+    "zustand"
+  ],
+  "engines": {
+    "node": ">=24",
+    "npm": ">=10"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -14,6 +29,7 @@
     "format:check": "prettier --check .",
     "test": "vitest",
     "test:run": "vitest run",
+    "init": "node scripts/use-template.mjs",
     "prepare": "husky"
   },
   "dependencies": {

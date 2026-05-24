@@ -1,0 +1,17 @@
+# Code owners for this repository.
+#
+# These owners are automatically requested for review when someone opens a pull
+# request that modifies code they own. Order matters: the last matching pattern
+# takes precedence.
+#
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-security/customizing-your-repository/about-code-owners
+#
+# Fill in with your GitHub username(s) or team(s) when using this template.
+
+# Default owners for everything in the repo.
+# * @your-username
+
+# Examples:
+# /src/app/         @your-username
+# /src/shared/      @your-username @another-username
+# /.github/         @your-username

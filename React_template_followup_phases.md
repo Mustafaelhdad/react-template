@@ -18,7 +18,7 @@ acceptance check.
 
 ## Phase 11: Project Identity & Developer Experience
 
-Status: Pending
+Status: Completed
 
 Everything that should already be in the repo to make starting a new project
 from this template trivial.
@@ -368,7 +368,7 @@ Acceptance:
 
 ## Phase 25: Publish as GitHub Template
 
-Status: Pending (this is Phase 10 from the original plan, still not done)
+Status: Completed (this is Phase 10 from the original plan)
 
 Tasks:
 

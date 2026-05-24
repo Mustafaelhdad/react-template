@@ -8,6 +8,22 @@ This template is intentionally generic. It includes a mock auth flow, dashboard
 shell, routing, shared API/client utilities, basic UI primitives, testing, linting,
 formatting, and a feature-sliced folder architecture.
 
+## Use This Template
+
+Click **Use this template** on GitHub to create your own repository, clone it,
+then run:
+
+```bash
+nvm use            # picks Node from .nvmrc (24)
+npm install
+npm run init       # rename the project (prompts for a name)
+# or skip demos:
+# npm run init -- --name="My App" --clean
+```
+
+`npm run init` rewrites the package name, page title, env defaults, and the
+auth storage key. With `--clean` it also deletes the demo views and widgets.
+
 ## Start Development
 
 ```bash
