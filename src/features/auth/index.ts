@@ -1,2 +1,6 @@
-export { demoSession } from './model/demo-session'
+export { login } from './api/login'
+export { loginSchema } from './lib/login-schema'
+export { useAuthStore } from './model/auth-store'
+export type { AuthSession, LoginCredentials } from './model/auth.types'
+export { LoginForm } from './ui/login-form'
 export { ProtectedRoute } from './ui/protected-route'

@@ -1,8 +1,9 @@
 import { LayoutDashboard, LogIn, LogOut, PanelsTopLeft } from 'lucide-react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 
-import { demoSession } from '@/features/auth'
+import { useAuthStore } from '@/features/auth'
 import { ROUTES } from '@/shared/config'
+import { notify } from '@/shared/lib'
 import { Button, buttonVariants } from '@/shared/ui'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -15,10 +16,13 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 
 export function Navbar() {
   const navigate = useNavigate()
-  const isAuthenticated = demoSession.isAuthenticated()
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const user = useAuthStore((state) => state.user)
+  const logout = useAuthStore((state) => state.logout)
 
   const handleSignOut = () => {
-    demoSession.signOut()
+    logout()
+    notify.info('Signed out')
     navigate(ROUTES.login)
   }
 
@@ -46,10 +50,15 @@ export function Navbar() {
         </nav>
 
         {isAuthenticated ? (
-          <Button variant="secondary" size="sm" onClick={handleSignOut}>
-            <LogOut className="size-4" aria-hidden="true" />
-            Sign out
-          </Button>
+          <div className="flex items-center gap-3">
+            <span className="hidden text-sm font-medium text-zinc-600 sm:inline">
+              {user?.name}
+            </span>
+            <Button variant="secondary" size="sm" onClick={handleSignOut}>
+              <LogOut className="size-4" aria-hidden="true" />
+              Sign out
+            </Button>
+          </div>
         ) : (
           <Link to={ROUTES.login} className={buttonVariants({ size: 'sm' })}>
             <LogIn className="size-4" aria-hidden="true" />

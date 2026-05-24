@@ -1,17 +1,8 @@
-import { LogIn } from 'lucide-react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
-import { demoSession } from '@/features/auth'
+import { LoginForm, useAuthStore } from '@/features/auth'
 import { ROUTES } from '@/shared/config'
-import { notify } from '@/shared/lib'
-import {
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/shared/ui'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui'
 
 type LoginLocationState = {
   from?: {
@@ -22,13 +13,16 @@ type LoginLocationState = {
 export function LoginView() {
   const navigate = useNavigate()
   const location = useLocation()
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const state = location.state as LoginLocationState | null
   const redirectTo = state?.from?.pathname ?? ROUTES.dashboard
 
-  const handleDemoLogin = () => {
-    demoSession.signIn()
-    notify.success('Demo session started')
+  const handleLoginSuccess = () => {
     navigate(redirectTo, { replace: true })
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to={redirectTo} replace />
   }
 
   return (
@@ -36,15 +30,12 @@ export function LoginView() {
       <CardHeader>
         <CardTitle className="text-2xl tracking-normal">Sign in</CardTitle>
         <CardDescription>
-          Start a temporary demo session to preview the protected dashboard route.
+          Enter your credentials to start the mock template session.
         </CardDescription>
       </CardHeader>
 
       <CardContent>
-        <Button onClick={handleDemoLogin} className="w-full">
-          <LogIn className="size-4" aria-hidden="true" />
-          Continue with demo session
-        </Button>
+        <LoginForm onSuccess={handleLoginSuccess} />
       </CardContent>
     </Card>
   )
