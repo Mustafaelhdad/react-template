@@ -55,7 +55,7 @@ Acceptance:
 
 ## Phase 12: Conventional Commits & Release Hygiene
 
-Status: Pending
+Status: Completed
 
 Tasks:
 

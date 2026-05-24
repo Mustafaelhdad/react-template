@@ -42,8 +42,8 @@ Examples:
 - `fix(api): handle 401 without crashing the app`
 - `chore: bump dependencies`
 
-A `commit-msg` hook may be enabled (see Phase 12 of the follow-up plan) that
-enforces this format.
+A `commit-msg` Husky hook runs `commitlint` on every commit. See
+`commitlint.config.cjs` for the exact rules.
 
 ## Quality checks
 
