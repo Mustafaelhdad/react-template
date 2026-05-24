@@ -237,6 +237,8 @@ Acceptance:
 
 ### Phase 7: Testing Baseline
 
+Status: Completed
+
 Add:
 
 - `src/test/setup.ts`
