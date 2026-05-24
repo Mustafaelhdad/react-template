@@ -1,1 +1,1 @@
-export {}
+export { demoSession, ProtectedRoute } from './auth'

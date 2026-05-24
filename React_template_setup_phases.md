@@ -160,6 +160,8 @@ npm run lint
 
 ### Phase 4: App Shell and Routing
 
+Status: Completed
+
 Build the reusable shell:
 
 - `src/app/App.tsx`
@@ -211,8 +213,16 @@ Add generic mock auth only:
 - Zod login schema
 - React Hook Form login form
 - protected route component
+- mock auth persistence through Zustand persist and `localStorage`
 
 No Quran-specific modules or business logic.
+
+Auth persistence policy:
+
+- `localStorage` is allowed only for the template's mock auth state.
+- Persisted mock auth can include demo user profile data and a fake access token.
+- Do not present `localStorage` as the recommended production storage for real refresh tokens, long-lived access tokens, API keys, permissions, or sensitive user data.
+- README docs must state that real projects should replace mock auth with backend-owned session handling, preferably secure `httpOnly` cookies for refresh/session tokens and short-lived access tokens.
 
 Acceptance:
 
@@ -262,6 +272,13 @@ Also document future shadcn usage:
 npx shadcn@latest init
 npx shadcn@latest add button input label card form sonner
 ```
+
+Also document auth storage clearly:
+
+- the included auth flow is mock/demo-only
+- mock login state is persisted with Zustand and `localStorage`
+- production projects should replace this with backend auth
+- sensitive tokens should not be stored in `localStorage`
 
 Acceptance:
 
