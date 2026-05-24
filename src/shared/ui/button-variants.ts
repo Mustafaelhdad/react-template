@@ -6,12 +6,13 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-zinc-950 text-white hover:bg-zinc-800 focus-visible:outline-zinc-950',
+          'bg-zinc-950 text-white hover:bg-zinc-800 focus-visible:outline-zinc-950 dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200 dark:focus-visible:outline-zinc-50',
         secondary:
-          'border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-100 focus-visible:outline-zinc-400',
+          'border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-100 focus-visible:outline-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 dark:focus-visible:outline-zinc-600',
         ghost:
-          'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-zinc-400',
-        danger: 'bg-red-600 text-white hover:bg-red-700 focus-visible:outline-red-600',
+          'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-zinc-400 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:focus-visible:outline-zinc-600',
+        danger:
+          'bg-red-600 text-white hover:bg-red-700 focus-visible:outline-red-600 dark:bg-red-600 dark:hover:bg-red-500',
       },
       size: {
         sm: 'h-9 px-3',

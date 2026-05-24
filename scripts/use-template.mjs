@@ -142,7 +142,15 @@ async function main() {
     text.replace(/'React Template'/g, `'${projectName}'`),
   )
 
-  // 7. Optional: nuke the demo content
+  // 7. theme module + FOUC script — persisted-storage key
+  await patchFile('src/shared/lib/theme.tsx', (text) =>
+    text.replaceAll('react-template:theme', `${slug}:theme`),
+  )
+  await patchFile('index.html', (text) =>
+    text.replaceAll('react-template:theme', `${slug}:theme`),
+  )
+
+  // 8. Optional: nuke the demo content
   if (wantsClean) {
     const toRemove = [
       'src/views/home',

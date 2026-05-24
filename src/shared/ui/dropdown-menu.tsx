@@ -12,7 +12,7 @@ export const DropdownMenuSub = DropdownPrimitive.Sub
 export const DropdownMenuRadioGroup = DropdownPrimitive.RadioGroup
 
 const menuItemBase =
-  'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors data-[highlighted]:bg-zinc-100 data-[highlighted]:text-zinc-950 data-[disabled]:pointer-events-none data-[disabled]:opacity-50'
+  'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors data-[highlighted]:bg-zinc-100 data-[highlighted]:text-zinc-950 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:data-[highlighted]:bg-zinc-800 dark:data-[highlighted]:text-zinc-50'
 
 export function DropdownMenuContent({
   className,
@@ -24,7 +24,7 @@ export function DropdownMenuContent({
       <DropdownPrimitive.Content
         sideOffset={sideOffset}
         className={cn(
-          'z-50 min-w-[10rem] overflow-hidden rounded-md border border-zinc-200 bg-white p-1 text-zinc-900 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out',
+          'z-50 min-w-[10rem] overflow-hidden rounded-md border border-zinc-200 bg-white p-1 text-zinc-900 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100',
           className,
         )}
         {...props}
@@ -86,7 +86,10 @@ export function DropdownMenuLabel({
 }: ComponentProps<typeof DropdownPrimitive.Label>) {
   return (
     <DropdownPrimitive.Label
-      className={cn('px-2 py-1.5 text-xs font-medium text-zinc-500', className)}
+      className={cn(
+        'px-2 py-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400',
+        className,
+      )}
       {...props}
     />
   )
@@ -98,7 +101,7 @@ export function DropdownMenuSeparator({
 }: ComponentProps<typeof DropdownPrimitive.Separator>) {
   return (
     <DropdownPrimitive.Separator
-      className={cn('-mx-1 my-1 h-px bg-zinc-200', className)}
+      className={cn('-mx-1 my-1 h-px bg-zinc-200 dark:bg-zinc-800', className)}
       {...props}
     />
   )
@@ -107,7 +110,10 @@ export function DropdownMenuSeparator({
 export function DropdownMenuShortcut({ className, ...props }: ComponentProps<'span'>) {
   return (
     <span
-      className={cn('ml-auto text-xs tracking-widest text-zinc-400', className)}
+      className={cn(
+        'ml-auto text-xs tracking-widest text-zinc-400 dark:text-zinc-500',
+        className,
+      )}
       {...props}
     />
   )
@@ -120,7 +126,11 @@ export function DropdownMenuSubTrigger({
 }: ComponentProps<typeof DropdownPrimitive.SubTrigger>) {
   return (
     <DropdownPrimitive.SubTrigger
-      className={cn(menuItemBase, 'data-[state=open]:bg-zinc-100', className)}
+      className={cn(
+        menuItemBase,
+        'data-[state=open]:bg-zinc-100 dark:data-[state=open]:bg-zinc-800',
+        className,
+      )}
       {...props}
     >
       {children}
@@ -136,7 +146,7 @@ export function DropdownMenuSubContent({
   return (
     <DropdownPrimitive.SubContent
       className={cn(
-        'z-50 min-w-[8rem] overflow-hidden rounded-md border border-zinc-200 bg-white p-1 shadow-md',
+        'z-50 min-w-[8rem] overflow-hidden rounded-md border border-zinc-200 bg-white p-1 shadow-md dark:border-zinc-800 dark:bg-zinc-900',
         className,
       )}
       {...props}

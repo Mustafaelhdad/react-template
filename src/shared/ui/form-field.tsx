@@ -81,7 +81,7 @@ export function FormField<TForm extends FieldValues, TName extends FieldPath<TFo
             />
           )}
           {description ? (
-            <p id={descriptionId} className="text-xs text-zinc-500">
+            <p id={descriptionId} className="text-xs text-zinc-500 dark:text-zinc-400">
               {description}
             </p>
           ) : null}

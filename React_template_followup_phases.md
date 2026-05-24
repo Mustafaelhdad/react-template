@@ -147,7 +147,7 @@ Acceptance:
 
 ## Phase 15: Theming & Dark Mode
 
-Status: Pending
+Status: Completed
 
 Tasks:
 
@@ -504,6 +504,87 @@ Acceptance:
 
 ---
 
+## Phase 27: Layout Presets (Marketing / Sidebar Dashboard / Topnav Dashboard)
+
+Status: Pending
+
+Today the template ships exactly one shell: a top navbar plus a sidebar
+that appears under `/dashboard`. That's fine for a CRUD-style app — but
+not for the two other shapes projects start as just as often:
+
+1. **Marketing / landing page.** Hero + sections + footer. No auth, no
+   dashboard, no sidebar.
+2. **Sidebar-dominant dashboard.** Sidebar is the primary nav, a thin
+   topbar carries account/theme controls. (Closest to today's shell.)
+3. **Topnav dashboard.** A rich top navigation with horizontal section
+   links — no sidebar. Common for content tools, settings-heavy apps.
+
+Goal: make it a one-flag decision when someone uses the template.
+
+### Tasks
+
+Layouts:
+
+- Restructure `src/widgets/` to expose three concrete layout widgets:
+  - `marketing-layout` — slim navbar (logo + a few links + theme toggle +
+    optional CTA), an `<Outlet>` for marketing sections, and a footer.
+  - `dashboard-sidebar-layout` — rename and harden the current
+    `dashboard-layout` + `app-sidebar` combo. This is the default.
+  - `dashboard-topnav-layout` — a richer navbar with horizontal subnav
+    (driven by a route tree config in `shared/config`), no sidebar,
+    and a `max-w-screen-2xl` content area below.
+- Keep `MainLayout` as a generic shell that just renders the chosen layout
+  - global providers — actual routing lives in `src/app/router.tsx`.
+
+Configuration:
+
+- Add `src/shared/config/layout.ts` exporting:
+  ```ts
+  export const LAYOUT: 'marketing' | 'dashboard-sidebar' | 'dashboard-topnav'
+  ```
+  This is a compile-time switch the router reads to mount the right
+  layout for the protected routes. Default: `dashboard-sidebar`.
+- The router exposes a marketing-style outer route (navbar + footer) for
+  unauthenticated pages and a chosen dashboard layout for authenticated
+  pages.
+
+Rename script (`scripts/use-template.mjs`):
+
+- Accept `--layout=marketing|dashboard-sidebar|dashboard-topnav` (default
+  to whatever the user picks interactively).
+- When `--clean` is also passed:
+  - `marketing` → delete `src/widgets/{app-sidebar,dashboard-sidebar-layout,dashboard-topnav-layout}` + the dashboard view + the auth feature + the login view.
+  - `dashboard-sidebar` → delete `marketing-layout` + `dashboard-topnav-layout` + any marketing-only sections.
+  - `dashboard-topnav` → delete `marketing-layout` + `dashboard-sidebar-layout` + `app-sidebar`.
+- Update `LAYOUT` in `src/shared/config/layout.ts` to the chosen value.
+
+Demo:
+
+- The `/ui-kit` route renders inside the active layout regardless of
+  preset, so the kit always looks right.
+- Add a tiny screenshot row to the README ("This is what each preset
+  looks like") — three side-by-side captures (320px + 1280px) per preset.
+
+Acceptance:
+
+- Running `npm run init -- --name="My App" --clean --layout=marketing`
+  produces an app with only the marketing shell — no dashboard, no
+  sidebar, no auth.
+- Running with `--layout=dashboard-topnav --clean` produces a dashboard
+  app with a horizontal nav, no sidebar.
+- Default (no flag, no clean) leaves all three layouts present so the
+  user can wire them up themselves later.
+- Only one sidebar/nav item is ever active for a given route in any
+  preset (no duplicate-`to` bugs).
+- README shows screenshots and a "choose your layout" section.
+
+> Related: this phase should land **after** Phase 17 (routing & layout
+> enhancements) and Phase 26 (responsive foundation) so each layout
+> inherits lazy routing, error boundaries, and mobile drawer behavior
+> without re-doing the work in three places.
+
+---
+
 ## Cross-cutting Cleanup Items
 
 These don't need their own phase but should land alongside relevant work:
@@ -535,9 +616,11 @@ If you don't want to do them strictly in phase order, this is a rough priority:
    any more UI work piles up. Pair with Phase 17 since they share the
    layout widgets.
 4. **Phase 18** (API hardening) and **Phase 17** (routing/layout).
-5. **Phase 15** (dark mode) and **Phase 16** (i18n) — only if you usually
+5. **Phase 27** (Layout Presets) — once Phase 17 + 26 settle, slot this
+   in so new projects can pick marketing / sidebar / topnav at init time.
+6. **Phase 15** (dark mode) and **Phase 16** (i18n) — only if you usually
    need them; skip otherwise.
-6. The rest as time allows.
+7. The rest as time allows.
 
 ---
 

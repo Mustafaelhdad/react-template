@@ -71,7 +71,11 @@ export function Pagination({
       </Button>
       {pages.map((item, index) =>
         item === DOTS ? (
-          <span key={`dots-${index}`} aria-hidden className="px-2 text-sm text-zinc-500">
+          <span
+            key={`dots-${index}`}
+            aria-hidden
+            className="px-2 text-sm text-zinc-500 dark:text-zinc-400"
+          >
             {DOTS}
           </span>
         ) : (

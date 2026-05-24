@@ -10,7 +10,7 @@ export function FormError({ message }: FormErrorProps) {
   }
 
   return (
-    <p className="flex items-center gap-2 text-sm font-medium text-red-600">
+    <p className="flex items-center gap-2 text-sm font-medium text-red-600 dark:text-red-400">
       <CircleAlert className="size-4" aria-hidden="true" />
       {message}
     </p>

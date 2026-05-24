@@ -16,7 +16,7 @@ export function DialogOverlay({
   return (
     <DialogPrimitive.Overlay
       className={cn(
-        'fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+        'fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 dark:bg-black/70',
         className,
       )}
       {...props}
@@ -39,7 +39,7 @@ export function DialogContent({
       <DialogOverlay />
       <DialogPrimitive.Content
         className={cn(
-          'fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border border-zinc-200 bg-white p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out',
+          'fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border border-zinc-200 bg-white p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out dark:border-zinc-800 dark:bg-zinc-900',
           className,
         )}
         {...props}
@@ -48,7 +48,7 @@ export function DialogContent({
         {hideCloseButton ? null : (
           <DialogPrimitive.Close
             aria-label="Close"
-            className="absolute right-4 top-4 rounded-sm text-zinc-500 transition-colors hover:text-zinc-900 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
+            className="absolute right-4 top-4 rounded-sm text-zinc-500 transition-colors hover:text-zinc-900 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950 dark:text-zinc-400 dark:hover:text-zinc-100 dark:focus-visible:outline-zinc-50"
           >
             <X className="size-4" />
           </DialogPrimitive.Close>
@@ -78,7 +78,7 @@ export function DialogTitle({
   return (
     <DialogPrimitive.Title
       className={cn(
-        'text-lg font-semibold leading-none tracking-tight text-zinc-950',
+        'text-lg font-semibold leading-none tracking-tight text-zinc-950 dark:text-zinc-50',
         className,
       )}
       {...props}
@@ -92,7 +92,7 @@ export function DialogDescription({
 }: ComponentProps<typeof DialogPrimitive.Description>) {
   return (
     <DialogPrimitive.Description
-      className={cn('text-sm text-zinc-500', className)}
+      className={cn('text-sm text-zinc-500 dark:text-zinc-400', className)}
       {...props}
     />
   )

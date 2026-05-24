@@ -137,14 +137,16 @@ export function FileUpload({
         onDragLeave={() => setIsDragging(false)}
         onDrop={onDrop}
         className={cn(
-          'flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed p-6 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950',
-          isDragging ? 'border-zinc-950 bg-zinc-50' : 'border-zinc-300 hover:bg-zinc-50',
+          'flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed p-6 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950 dark:focus-visible:outline-zinc-50',
+          isDragging
+            ? 'border-zinc-950 bg-zinc-50 dark:border-zinc-50 dark:bg-zinc-800'
+            : 'border-zinc-300 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800/50',
           disabled && 'cursor-not-allowed opacity-50',
         )}
       >
-        <Upload className="size-6 text-zinc-500" aria-hidden />
-        <p className="text-sm font-medium text-zinc-900">{label}</p>
-        {hint ? <p className="text-xs text-zinc-500">{hint}</p> : null}
+        <Upload className="size-6 text-zinc-500 dark:text-zinc-400" aria-hidden />
+        <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{label}</p>
+        {hint ? <p className="text-xs text-zinc-500 dark:text-zinc-400">{hint}</p> : null}
         <input
           ref={inputRef}
           type="file"
@@ -161,7 +163,7 @@ export function FileUpload({
           {previews.map((preview, index) => (
             <li
               key={`${preview.file.name}-${index}`}
-              className="flex items-center gap-3 rounded-md border border-zinc-200 bg-white px-3 py-2"
+              className="flex items-center gap-3 rounded-md border border-zinc-200 bg-white px-3 py-2 dark:border-zinc-800 dark:bg-zinc-900"
             >
               {preview.url ? (
                 <img
@@ -170,15 +172,17 @@ export function FileUpload({
                   className="size-10 rounded-md object-cover"
                 />
               ) : (
-                <div className="flex size-10 items-center justify-center rounded-md bg-zinc-100 text-xs font-medium uppercase text-zinc-500">
+                <div className="flex size-10 items-center justify-center rounded-md bg-zinc-100 text-xs font-medium uppercase text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
                   {preview.file.name.split('.').pop()?.slice(0, 4) ?? 'file'}
                 </div>
               )}
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-zinc-900">
+                <p className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
                   {preview.file.name}
                 </p>
-                <p className="text-xs text-zinc-500">{formatBytes(preview.file.size)}</p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  {formatBytes(preview.file.size)}
+                </p>
               </div>
               <Button
                 type="button"

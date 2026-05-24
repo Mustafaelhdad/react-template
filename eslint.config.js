@@ -88,9 +88,10 @@ export default defineConfig([
   },
   {
     // shared/ui re-exports headless primitives (Radix) where the static
-    // analyzer can't tell the const is a React component. The rule is fine
-    // to skip here — these files are wrappers, not stateful screens.
-    files: ['src/shared/ui/**/*.tsx'],
+    // analyzer can't tell the const is a React component. shared/lib mixes
+    // hooks and providers in the same file (e.g. ThemeProvider + useTheme).
+    // Both cases are fine — skip the rule for these layers.
+    files: ['src/shared/ui/**/*.tsx', 'src/shared/lib/**/*.tsx'],
     rules: {
       'react-refresh/only-export-components': 'off',
     },

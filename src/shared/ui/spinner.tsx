@@ -28,7 +28,11 @@ export function Spinner({ className, size, label = 'Loading', ...props }: Spinne
     <Loader2
       role="status"
       aria-label={label}
-      className={cn(spinnerVariants({ size }), 'text-zinc-700', className)}
+      className={cn(
+        spinnerVariants({ size }),
+        'text-zinc-700 dark:text-zinc-300',
+        className,
+      )}
       {...props}
     />
   )

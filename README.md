@@ -99,6 +99,24 @@ VITE_API_BASE_URL
 `VITE_API_BASE_URL` should be empty for the default `/api` fallback or set to a
 full URL such as `http://localhost:3000/api`.
 
+## Theming (Light / Dark / System)
+
+The template ships a `ThemeProvider` backed by `localStorage` (key
+`react-template:theme`) and a `ThemeToggle` widget in the navbar. The provider
+applies the `.dark` class to `<html>`; primitives use Tailwind `dark:` variants.
+
+```ts
+import { useTheme } from '@/shared/lib'
+
+const { theme, resolvedTheme, setTheme } = useTheme()
+//      ^ 'light' | 'dark' | 'system'    ^ 'light' | 'dark'
+```
+
+A small inline script in [index.html](index.html) reads the stored preference
+before first paint, so there is no flash of the wrong theme on reload. If you
+change the storage key, change it in both files (the rename script does this
+automatically).
+
 ## Mock Auth
 
 The included auth flow is mock/demo-only. It uses:

@@ -65,7 +65,7 @@ const demoFormSchema = z.object({
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="space-y-3">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+      <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
         {title}
       </h2>
       <Card>
@@ -89,11 +89,13 @@ export function UiKitView() {
     <TooltipProvider>
       <div className="space-y-10">
         <header className="space-y-2">
-          <h1 className="text-3xl font-semibold tracking-tight text-zinc-950">UI Kit</h1>
-          <p className="text-sm text-zinc-600">
+          <h1 className="text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
+            UI Kit
+          </h1>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
             Every primitive shipped in this template. Use it as a sanity check after
             pulling in changes. Delete this view with{' '}
-            <code className="rounded bg-zinc-100 px-1 py-0.5">
+            <code className="rounded bg-zinc-100 px-1 py-0.5 dark:bg-zinc-800">
               npm run init -- --clean
             </code>
             .
@@ -182,13 +184,22 @@ export function UiKitView() {
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
-            <TabsContent value="overview" className="text-sm text-zinc-600">
+            <TabsContent
+              value="overview"
+              className="text-sm text-zinc-600 dark:text-zinc-400"
+            >
               Project overview content.
             </TabsContent>
-            <TabsContent value="analytics" className="text-sm text-zinc-600">
+            <TabsContent
+              value="analytics"
+              className="text-sm text-zinc-600 dark:text-zinc-400"
+            >
               Analytics charts go here.
             </TabsContent>
-            <TabsContent value="settings" className="text-sm text-zinc-600">
+            <TabsContent
+              value="settings"
+              className="text-sm text-zinc-600 dark:text-zinc-400"
+            >
               Settings live here.
             </TabsContent>
           </Tabs>
@@ -332,7 +343,7 @@ export function UiKitView() {
           <CardHeader>
             <CardTitle>Card</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-zinc-600">
+          <CardContent className="text-sm text-zinc-600 dark:text-zinc-400">
             Card primitive composed with the rest. Useful for grouping content.
           </CardContent>
         </Card>
