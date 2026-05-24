@@ -197,7 +197,7 @@ Acceptance:
 
 ## Phase 17: Routing & Layout Enhancements
 
-Status: Pending
+Status: Completed
 
 Tasks:
 
@@ -229,7 +229,7 @@ Acceptance:
 
 ## Phase 18: API / Data Layer Hardening
 
-Status: Pending
+Status: Complete
 
 Tasks:
 
@@ -256,7 +256,7 @@ Acceptance:
 
 ## Phase 19: Shared Hooks Library
 
-Status: Pending
+Status: Done
 
 Add to [src/shared/lib/hooks/](src/shared/lib) — each with a focused test:
 

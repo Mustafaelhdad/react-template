@@ -1,5 +1,7 @@
 export { DashboardView } from './dashboard'
+export { ErrorView } from './error'
 export { HomeView } from './home'
 export { LoginView } from './login'
 export { NotFoundView } from './not-found'
+export { SessionExpiredView } from './session-expired'
 export { UiKitView } from './ui-kit'

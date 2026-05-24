@@ -9,6 +9,7 @@ import { DirectionProvider, ThemeProvider, useTheme } from '@/shared/lib'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      staleTime: 30_000,
       refetchOnWindowFocus: false,
       retry: 1,
     },

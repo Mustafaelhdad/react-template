@@ -47,6 +47,7 @@ describe('LoginForm', () => {
         email: 'demo@example.com',
         name: 'Demo',
         role: 'admin',
+        roles: ['admin', 'user'],
       },
     })
   })

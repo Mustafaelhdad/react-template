@@ -60,6 +60,27 @@
     "description": "The route does not exist in this template shell.",
     "backHome": "Back home"
   },
+  "error": {
+    "tag": "Something went wrong",
+    "title": "We hit a snag",
+    "description": "An unexpected error happened while rendering this page. You can try again, or head back home.",
+    "retry": "Try again",
+    "backHome": "Back home"
+  },
+  "sessionExpired": {
+    "tag": "Session expired",
+    "title": "Please sign in again",
+    "description": "For your security we signed you out. Sign in again to continue where you left off.",
+    "signInAgain": "Sign in"
+  },
+  "breadcrumbs": {
+    "ariaLabel": "Breadcrumb"
+  },
+  "layout": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "navigation": "Navigation"
+  },
   "validation": {
     "email": "Enter a valid email address",
     "passwordMin": "Password must be at least 6 characters"

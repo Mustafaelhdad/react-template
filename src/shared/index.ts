@@ -1,7 +1,15 @@
-export { apiClient, ENDPOINTS } from './api'
+export {
+  apiClient,
+  ENDPOINTS,
+  parseApiError,
+  setAuthTokenProvider,
+  setUnauthorizedHandler,
+  type ParsedApiError,
+} from './api'
 export { ROUTES } from './config'
 export type { AppRoute } from './config'
-export { cn, notify, storage } from './lib'
+export { cn, notify, storage, useApiMutation } from './lib'
+export type { UseApiMutationOptions } from './lib'
 export {
   Button,
   buttonVariants,

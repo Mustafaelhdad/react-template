@@ -26,6 +26,7 @@ export async function login(credentials: LoginCredentials): Promise<AuthSession>
       name: getDisplayName(credentials.email) || 'Demo User',
       email: credentials.email,
       role: 'admin',
+      roles: ['admin', 'user'],
     },
   }
 }
