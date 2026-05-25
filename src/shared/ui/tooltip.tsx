@@ -1,11 +1,33 @@
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import type { ComponentProps } from 'react'
 
+import { useMediaQuery } from '@/shared/lib/hooks/use-media-query'
 import { cn } from '@/shared/lib'
 
 export const TooltipProvider = TooltipPrimitive.Provider
-export const Tooltip = TooltipPrimitive.Root
 export const TooltipTrigger = TooltipPrimitive.Trigger
+
+type TooltipProps = ComponentProps<typeof TooltipPrimitive.Root> & {
+  disableOnTouch?: boolean
+}
+
+export function Tooltip({
+  disableOnTouch = true,
+  open,
+  defaultOpen,
+  ...props
+}: TooltipProps) {
+  const canHover = useMediaQuery('(hover: hover) and (pointer: fine)')
+  const disabled = disableOnTouch && !canHover
+
+  return (
+    <TooltipPrimitive.Root
+      open={disabled ? false : open}
+      defaultOpen={disabled ? false : defaultOpen}
+      {...props}
+    />
+  )
+}
 
 export function TooltipContent({
   className,

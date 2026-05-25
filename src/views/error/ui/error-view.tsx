@@ -31,12 +31,12 @@ export function ErrorView({ error, onReset }: ErrorViewProps) {
   const message = getErrorMessage(error)
 
   return (
-    <Card className="mx-auto max-w-lg text-center">
-      <CardContent className="p-6">
+    <Card className="mx-auto w-full max-w-lg text-center">
+      <CardContent className="p-4 sm:p-6">
         <p className="text-sm font-medium text-red-600 dark:text-red-400">
           {t('error.tag')}
         </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-normal text-zinc-950 dark:text-zinc-50">
+        <h1 className="mt-2 text-2xl font-semibold tracking-normal text-zinc-950 sm:text-3xl dark:text-zinc-50">
           {t('error.title')}
         </h1>
         <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">

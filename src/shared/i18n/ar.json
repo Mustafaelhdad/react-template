@@ -8,11 +8,15 @@
     "signedInSuccessfully": "تم تسجيل الدخول بنجاح",
     "unableToSignIn": "تعذر تسجيل الدخول",
     "language": "اللغة",
-    "changeLanguage": "تغيير اللغة"
+    "changeLanguage": "تغيير اللغة",
+    "confirm": "تأكيد",
+    "cancel": "إلغاء"
   },
   "nav": {
     "home": "الرئيسية",
-    "dashboard": "لوحة التحكم"
+    "dashboard": "لوحة التحكم",
+    "main": "التنقل الرئيسي",
+    "dashboardMain": "تنقل لوحة التحكم"
   },
   "sidebar": {
     "workspace": "مساحة العمل",
@@ -52,6 +56,11 @@
       "activeUsers": "المستخدمون النشطون",
       "revenue": "الإيرادات",
       "tasksComplete": "المهام المكتملة"
+    },
+    "signOut": {
+      "title": "تسجيل الخروج؟",
+      "description": "ستحتاج إلى تسجيل الدخول مرة أخرى للعودة إلى لوحة التحكم.",
+      "confirm": "تسجيل الخروج"
     }
   },
   "notFound": {
@@ -79,7 +88,11 @@
   "layout": {
     "openMenu": "فتح القائمة",
     "closeMenu": "إغلاق القائمة",
-    "navigation": "التنقل"
+    "navigation": "التنقل",
+    "collapseSidebar": "طي الشريط الجانبي",
+    "expandSidebar": "توسيع الشريط الجانبي",
+    "footerTagline": "مبني من قالب React قابل لإعادة الاستخدام.",
+    "viewUiKit": "عرض مكتبة الواجهة"
   },
   "validation": {
     "email": "أدخل بريداً إلكترونياً صالحاً",

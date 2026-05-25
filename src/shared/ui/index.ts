@@ -12,6 +12,8 @@ export {
   CardTitle,
 } from './card'
 export { Checkbox } from './checkbox'
+export { ConfirmDialog, type ConfirmDialogProps } from './confirm-dialog'
+export { Container } from './container'
 export {
   Table,
   TableBody,

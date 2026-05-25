@@ -17,7 +17,7 @@ export function Card({ className, ...props }: CardProps) {
 }
 
 export function CardHeader({ className, ...props }: CardProps) {
-  return <div className={cn('grid gap-1.5 p-6', className)} {...props} />
+  return <div className={cn('grid gap-1.5 p-4 sm:p-6', className)} {...props} />
 }
 
 export function CardTitle({ className, ...props }: CardProps) {
@@ -39,9 +39,14 @@ export function CardDescription({ className, ...props }: CardProps) {
 }
 
 export function CardContent({ className, ...props }: CardProps) {
-  return <div className={cn('p-6 pt-0', className)} {...props} />
+  return <div className={cn('p-4 pt-0 sm:p-6 sm:pt-0', className)} {...props} />
 }
 
 export function CardFooter({ className, ...props }: CardProps) {
-  return <div className={cn('flex items-center p-6 pt-0', className)} {...props} />
+  return (
+    <div
+      className={cn('flex items-center p-4 pt-0 sm:p-6 sm:pt-0', className)}
+      {...props}
+    />
+  )
 }

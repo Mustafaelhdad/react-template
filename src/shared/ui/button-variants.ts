@@ -15,10 +15,10 @@ export const buttonVariants = cva(
           'bg-red-600 text-white hover:bg-red-700 focus-visible:outline-red-600 dark:bg-red-600 dark:hover:bg-red-500',
       },
       size: {
-        sm: 'h-9 px-3',
-        md: 'h-10 px-4',
-        lg: 'h-11 px-5',
-        icon: 'size-10',
+        sm: 'min-h-11 px-3 py-2',
+        md: 'min-h-11 px-4 py-2',
+        lg: 'min-h-12 px-5 py-2.5',
+        icon: 'size-11',
       },
     },
     defaultVariants: {

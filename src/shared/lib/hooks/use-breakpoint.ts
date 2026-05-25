@@ -13,12 +13,12 @@ export const BREAKPOINTS = {
 } as const
 
 export type Breakpoint = keyof typeof BREAKPOINTS
-export type BreakpointName = 'xs' | Breakpoint
+export type BreakpointName = 'base' | Breakpoint
 
-const ORDER: BreakpointName[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl']
+const ORDER: BreakpointName[] = ['base', 'sm', 'md', 'lg', 'xl', '2xl']
 
 /**
- * Returns the largest Tailwind breakpoint currently active, or `'xs'`
+ * Returns the largest Tailwind breakpoint currently active, or `'base'`
  * if the viewport is below the smallest breakpoint.
  */
 export function useBreakpoint(): BreakpointName {
@@ -29,7 +29,7 @@ export function useBreakpoint(): BreakpointName {
   const xxl = useMediaQuery(`(min-width: ${BREAKPOINTS['2xl']}px)`)
 
   const matches = [true, sm, md, lg, xl, xxl]
-  let active: BreakpointName = 'xs'
+  let active: BreakpointName = 'base'
   for (let i = 0; i < matches.length; i += 1) {
     if (matches[i]) active = ORDER[i]
   }

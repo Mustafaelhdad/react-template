@@ -1,8 +1,39 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { Pagination } from './pagination'
+
+function installMaxWidth(matches: boolean) {
+  Object.defineProperty(window, 'matchMedia', {
+    configurable: true,
+    writable: true,
+    value: vi.fn((query: string) => ({
+      matches: query === '(max-width: 639px)' ? matches : false,
+      media: query,
+      onchange: null,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      dispatchEvent: () => true,
+      addListener: () => undefined,
+      removeListener: () => undefined,
+    })),
+  })
+}
+
+let originalMatchMedia: typeof window.matchMedia
+
+beforeEach(() => {
+  originalMatchMedia = window.matchMedia
+})
+
+afterEach(() => {
+  Object.defineProperty(window, 'matchMedia', {
+    configurable: true,
+    writable: true,
+    value: originalMatchMedia,
+  })
+})
 
 describe('Pagination', () => {
   it('calls onPageChange when a numbered button is clicked', async () => {
@@ -23,5 +54,13 @@ describe('Pagination', () => {
       <Pagination page={1} pageCount={1} onPageChange={() => {}} />,
     )
     expect(container).toBeEmptyDOMElement()
+  })
+
+  it('reduces siblings below the small breakpoint', () => {
+    installMaxWidth(true)
+    render(<Pagination page={5} pageCount={10} onPageChange={() => {}} />)
+
+    expect(screen.queryByRole('button', { name: '4' })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '5' })).toBeInTheDocument()
   })
 })

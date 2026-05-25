@@ -1,7 +1,11 @@
 import { useEffect, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { getDirection } from '@/shared/i18n'
+import {
+  applyLanguageAttributes,
+  getDirection,
+  getSupportedLanguage,
+} from '@/shared/i18n'
 
 export type Direction = 'ltr' | 'rtl'
 
@@ -12,14 +16,11 @@ export type Direction = 'ltr' | 'rtl'
  */
 export function DirectionProvider({ children }: { children: ReactNode }) {
   const { i18n } = useTranslation()
-  const direction = getDirection(i18n.language)
+  const language = getSupportedLanguage(i18n.resolvedLanguage ?? i18n.language)
 
   useEffect(() => {
-    if (typeof document === 'undefined') return
-    const root = document.documentElement
-    root.setAttribute('dir', direction)
-    root.setAttribute('lang', i18n.language)
-  }, [direction, i18n.language])
+    applyLanguageAttributes(language)
+  }, [language])
 
   return <>{children}</>
 }
@@ -31,5 +32,5 @@ export function DirectionProvider({ children }: { children: ReactNode }) {
  */
 export function useDirection(): Direction {
   const { i18n } = useTranslation()
-  return getDirection(i18n.language)
+  return getDirection(getSupportedLanguage(i18n.resolvedLanguage ?? i18n.language))
 }

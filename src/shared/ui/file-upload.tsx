@@ -137,7 +137,7 @@ export function FileUpload({
         onDragLeave={() => setIsDragging(false)}
         onDrop={onDrop}
         className={cn(
-          'flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed p-6 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950 dark:focus-visible:outline-zinc-50',
+          'flex min-h-32 cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed p-4 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950 sm:p-6 dark:focus-visible:outline-zinc-50',
           isDragging
             ? 'border-zinc-950 bg-zinc-50 dark:border-zinc-50 dark:bg-zinc-800'
             : 'border-zinc-300 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800/50',
@@ -163,16 +163,16 @@ export function FileUpload({
           {previews.map((preview, index) => (
             <li
               key={`${preview.file.name}-${index}`}
-              className="flex items-center gap-3 rounded-md border border-zinc-200 bg-white px-3 py-2 dark:border-zinc-800 dark:bg-zinc-900"
+              className="flex flex-wrap items-center gap-3 rounded-md border border-zinc-200 bg-white px-3 py-2 sm:flex-nowrap dark:border-zinc-800 dark:bg-zinc-900"
             >
               {preview.url ? (
                 <img
                   src={preview.url}
                   alt=""
-                  className="size-10 rounded-md object-cover"
+                  className="size-10 shrink-0 rounded-md object-cover"
                 />
               ) : (
-                <div className="flex size-10 items-center justify-center rounded-md bg-zinc-100 text-xs font-medium uppercase text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-zinc-100 text-xs font-medium uppercase text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
                   {preview.file.name.split('.').pop()?.slice(0, 4) ?? 'file'}
                 </div>
               )}

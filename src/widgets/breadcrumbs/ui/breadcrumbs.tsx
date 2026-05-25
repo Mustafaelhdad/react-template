@@ -71,7 +71,7 @@ export function Breadcrumbs() {
               ) : (
                 <Link
                   to={crumb.to}
-                  className="rounded-sm transition-colors hover:text-zinc-950 dark:hover:text-zinc-50"
+                  className="inline-flex min-h-11 items-center rounded-sm px-1 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50"
                 >
                   {crumb.label}
                 </Link>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="220" viewBox="0 0 320 220" role="img" aria-label="Marketing layout mobile preview">
+  <rect width="320" height="220" fill="#f8fafc"/>
+  <rect x="0" y="0" width="320" height="46" fill="#ffffff"/>
+  <rect x="16" y="14" width="92" height="18" rx="4" fill="#059669"/>
+  <rect x="276" y="12" width="28" height="22" rx="5" fill="#e4e4e7"/>
+  <rect x="16" y="72" width="76" height="16" rx="4" fill="#d1fae5"/>
+  <rect x="16" y="102" width="236" height="18" rx="5" fill="#18181b"/>
+  <rect x="16" y="128" width="208" height="10" rx="5" fill="#71717a"/>
+  <rect x="16" y="146" width="184" height="10" rx="5" fill="#a1a1aa"/>
+  <rect x="16" y="172" width="112" height="30" rx="6" fill="#18181b"/>
+  <rect x="0" y="210" width="320" height="10" fill="#ffffff"/>
+</svg>

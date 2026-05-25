@@ -6,10 +6,20 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   quality:
-    name: Quality checks
+    name: Quality checks (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Add the next LTS (e.g. 26) here once it lands.
+        node-version: [24]
 
     steps:
       - name: Checkout
@@ -18,11 +28,14 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
-          node-version: 24
+          node-version: ${{ matrix.node-version }}
           cache: npm
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Format check
+        run: npm run format:check
 
       - name: Lint
         run: npm run lint
@@ -35,3 +48,6 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Bundle size check
+        run: npm run size:check

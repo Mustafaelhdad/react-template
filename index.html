@@ -1,10 +1,37 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>react-template-vite-scaffold</title>
+    <!-- i18n bootstrap:start -->
+    <script>
+      // Apply the configured language before first paint to avoid an LTR flash
+      // when the project default is RTL. Mirrors src/shared/i18n/index.ts.
+      ;(function () {
+        try {
+          var supportedLanguages = ['en', 'ar']
+          var rtlLanguages = ['ar']
+          var projectDefaultLanguage = 'en'
+          var persistedLanguage = localStorage.getItem('react-template:language')
+          var language =
+            supportedLanguages.indexOf(persistedLanguage) >= 0
+              ? persistedLanguage
+              : projectDefaultLanguage
+
+          document.documentElement.setAttribute('lang', language)
+          document.documentElement.setAttribute(
+            'dir',
+            rtlLanguages.indexOf(language) >= 0 ? 'rtl' : 'ltr',
+          )
+        } catch (e) {
+          document.documentElement.setAttribute('lang', 'en')
+          document.documentElement.setAttribute('dir', 'ltr')
+        }
+      })()
+    </script>
+    <!-- i18n bootstrap:end -->
     <script>
       // Apply the persisted theme before first paint to avoid FOUC.
       // Mirrors the ThemeProvider in src/shared/lib/theme.tsx — keep in sync.

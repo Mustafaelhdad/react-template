@@ -1,6 +1,7 @@
 import { LogIn } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
+import { parseApiError } from '@/shared/api'
 import { notify, useZodForm } from '@/shared/lib'
 import { Button, FormError, FormField } from '@/shared/ui'
 
@@ -30,10 +31,11 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       notify.success(t('common.signedInSuccessfully'))
       onSuccess?.()
     } catch (error) {
-      const message = error instanceof Error ? error.message : t('common.unableToSignIn')
+      const { message } = parseApiError(error)
+      const display = message || t('common.unableToSignIn')
 
-      form.setError('root', { message })
-      notify.error(message)
+      form.setError('root', { message: display })
+      notify.error(display)
     }
   })
 

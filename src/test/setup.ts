@@ -1,5 +1,7 @@
 import '@testing-library/jest-dom/vitest'
-import { vi } from 'vitest'
+import { afterAll, afterEach, beforeAll, vi } from 'vitest'
+
+import { server } from './msw/server'
 
 // jsdom does not implement `window.matchMedia`. The ThemeProvider and
 // any responsive hooks rely on it, so install a benign default for every
@@ -20,3 +22,23 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
     })),
   })
 }
+
+if (typeof window !== 'undefined') {
+  Object.defineProperty(window, 'scrollTo', {
+    configurable: true,
+    writable: true,
+    value: vi.fn(),
+  })
+}
+
+beforeAll(() => {
+  server.listen({ onUnhandledRequest: 'error' })
+})
+
+afterEach(() => {
+  server.resetHandlers()
+})
+
+afterAll(() => {
+  server.close()
+})

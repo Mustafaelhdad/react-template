@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
+import { useMediaQuery } from '@/shared/lib/hooks/use-media-query'
 import { cn } from '@/shared/lib'
 
 import { Button } from './button'
@@ -47,9 +48,11 @@ export function Pagination({
   siblings = 1,
   className,
 }: PaginationProps) {
+  const belowSm = useMediaQuery('(max-width: 639px)')
+  const responsiveSiblings = belowSm ? 0 : siblings
   const pages = useMemo(
-    () => buildPages(page, pageCount, siblings),
-    [page, pageCount, siblings],
+    () => buildPages(page, pageCount, responsiveSiblings),
+    [page, pageCount, responsiveSiblings],
   )
 
   if (pageCount <= 1) return null
@@ -58,7 +61,7 @@ export function Pagination({
     <nav
       role="navigation"
       aria-label="pagination"
-      className={cn('flex items-center gap-1', className)}
+      className={cn('flex max-w-full flex-wrap items-center gap-1', className)}
     >
       <Button
         variant="secondary"

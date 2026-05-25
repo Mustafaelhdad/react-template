@@ -8,11 +8,15 @@
     "signedInSuccessfully": "Signed in successfully",
     "unableToSignIn": "Unable to sign in",
     "language": "Language",
-    "changeLanguage": "Change language"
+    "changeLanguage": "Change language",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
   "nav": {
     "home": "Home",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "main": "Main navigation",
+    "dashboardMain": "Dashboard navigation"
   },
   "sidebar": {
     "workspace": "Workspace",
@@ -52,6 +56,11 @@
       "activeUsers": "Active users",
       "revenue": "Revenue",
       "tasksComplete": "Tasks complete"
+    },
+    "signOut": {
+      "title": "Sign out?",
+      "description": "You'll need to sign in again to get back into the dashboard.",
+      "confirm": "Sign out"
     }
   },
   "notFound": {
@@ -79,7 +88,11 @@
   "layout": {
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar",
+    "footerTagline": "Built from a reusable React starter.",
+    "viewUiKit": "View UI kit"
   },
   "validation": {
     "email": "Enter a valid email address",

@@ -17,18 +17,43 @@ then run:
 nvm use            # picks Node from .nvmrc (24)
 npm install
 npm run init       # rename the project (prompts for a name)
+# pick a shell:
+# npm run init -- --name="My App" --layout=dashboard-topnav
 # or skip demos:
-# npm run init -- --name="My App" --clean
+# npm run init -- --name="My App" --clean --layout=marketing
 # or also strip translations:
 # npm run init -- --name="My App" --no-i18n
 ```
 
 `npm run init` rewrites the package name, page title, env defaults, and the
-auth storage key. With `--clean` it also deletes the demo views and widgets.
+auth storage key, then lets you choose a layout preset. Pass
+`--layout=marketing`, `--layout=dashboard-sidebar`, or
+`--layout=dashboard-topnav` to skip the prompt. With `--clean` it deletes the
+unused layout widgets and rewrites the router/barrels for the selected preset.
 With `--no-i18n` it uninstalls react-i18next, deletes the i18n config /
-direction hook / language switcher, and rewrites every `t('foo.bar')` back
-to its English literal so the app builds without translations — run `npm
-install` afterwards to drop the packages from `node_modules`.
+direction hook / language switcher, and rewrites every `t('foo.bar')` back to
+its English literal so the app builds without translations — run `npm install`
+afterwards to drop the packages from `node_modules`.
+
+## Choose Your Layout
+
+The template ships three layout presets behind a compile-time switch in
+`src/shared/config/layout.ts`. Default is `dashboard-sidebar`; no-clean projects
+keep all layout widgets so you can change the constant later.
+
+| Preset            | 320px preview                                                                              | 1280px preview                                                                               |
+| ----------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| Marketing         | ![Marketing layout at 320px](docs/assets/layout-presets/marketing-320.svg)                 | ![Marketing layout at 1280px](docs/assets/layout-presets/marketing-1280.svg)                 |
+| Sidebar dashboard | ![Sidebar dashboard layout at 320px](docs/assets/layout-presets/dashboard-sidebar-320.svg) | ![Sidebar dashboard layout at 1280px](docs/assets/layout-presets/dashboard-sidebar-1280.svg) |
+| Topnav dashboard  | ![Topnav dashboard layout at 320px](docs/assets/layout-presets/dashboard-topnav-320.svg)   | ![Topnav dashboard layout at 1280px](docs/assets/layout-presets/dashboard-topnav-1280.svg)   |
+
+Preset cleanup examples:
+
+```bash
+npm run init -- --name="My App" --clean --layout=marketing
+npm run init -- --name="My App" --clean --layout=dashboard-sidebar
+npm run init -- --name="My App" --clean --layout=dashboard-topnav
+```
 
 ## Start Development
 
@@ -44,6 +69,17 @@ Per-feature usage guides live in [docs/](docs/README.md):
 
 - [i18n & RTL](docs/i18n.md) — translations, language switcher, RTL,
   and the `--no-i18n` opt-out.
+- [Routing & Layout](docs/routing-and-layout.md) — lazy routes, error
+  boundaries, responsive layout presets, and auth-aware dashboard shells.
+- [Build & Performance](docs/build-and-performance.md) — SVG components,
+  `build:analyze`, vendor chunk pinning, the bundle-size budget, and
+  PWA opt-in.
+- [Testing](docs/testing.md) — Vitest + MSW setup, coverage,
+  backend-free dev with `VITE_ENABLE_MSW=true`, and Playwright for E2E.
+- [Monitoring & Analytics](docs/monitoring.md) — no-op capture helpers and
+  swap-in notes for Sentry, PostHog, and Plausible.
+- [CI/CD](docs/ci-cd.md) — the CI pipeline, CodeQL scanning, and the
+  parked deploy template for Vercel / Netlify / GitHub Pages.
 
 ## Quality Checks
 
@@ -60,6 +96,8 @@ npm run build
 ```txt
 npm run dev           Start Vite dev server
 npm run build         Type-check and build for production
+npm run build:analyze Build with the rollup-plugin-visualizer treemap
+npm run size:check    Fail if any dist chunk exceeds the gzip budget
 npm run preview       Preview the production build
 npm run lint          Run ESLint
 npm run lint:fix      Run ESLint with auto-fix
@@ -68,6 +106,7 @@ npm run format        Format files with Prettier
 npm run format:check  Check Prettier formatting
 npm run test          Run Vitest in watch mode
 npm run test:run      Run Vitest once
+npm run test:coverage Run Vitest once with a v8 coverage report
 ```
 
 ## Architecture
@@ -107,10 +146,40 @@ Available variables:
 ```txt
 VITE_APP_NAME
 VITE_API_BASE_URL
+VITE_ENABLE_MSW
+VITE_SENTRY_DSN
+VITE_ANALYTICS_KEY
 ```
 
 `VITE_API_BASE_URL` should be empty for the default `/api` fallback or set to a
 full URL such as `http://localhost:3000/api`.
+
+Set `VITE_ENABLE_MSW=true` in `.env.local` to boot the dev server behind
+the MSW mock worker — useful for building UI before a backend exists. The
+flag is ignored in production builds. See [docs/testing.md](docs/testing.md)
+for details.
+
+`VITE_SENTRY_DSN` and `VITE_ANALYTICS_KEY` are placeholders for projects that
+opt into monitoring or analytics. They are parsed by `src/shared/config/env.ts`,
+but the template does not install or initialize any vendor SDK by default.
+
+## Monitoring & Analytics
+
+The template exposes vendor-neutral capture helpers from
+`src/shared/lib/monitoring.ts`:
+
+```ts
+import { captureError, captureEvent, registerMonitoring } from '@/shared/lib'
+
+captureEvent('Dashboard Viewed', { source: 'navbar' })
+captureError(error, { source: 'react-error-boundary' })
+```
+
+The default adapter is a no-op, so builds stay dependency-free. To wire a real
+provider, install the SDK in the app project and call `registerMonitoring()`
+during app startup. The route error boundary and Axios response interceptor
+already call `captureError()`. See [docs/monitoring.md](docs/monitoring.md) for
+Sentry, PostHog, and Plausible examples.
 
 ## Theming (Light / Dark / System)
 
@@ -171,6 +240,69 @@ npx shadcn@latest add button input label card form sonner
 
 Configure shadcn to output components into `src/shared/ui` if you want to keep
 the same architecture.
+
+## Responsive Patterns
+
+The template is mobile-first. Default classes should render cleanly at 320px
+and Tailwind breakpoint prefixes should only opt up as space increases.
+
+Tailwind's default breakpoints are the source of truth:
+
+```txt
+sm   640px
+md   768px
+lg   1024px
+xl   1280px
+2xl  1536px
+```
+
+Use `md` as the layout breakpoint. Sidebars collapse into drawers, navbars
+switch to hamburger drawers, and multi-column grids should stack below `md`.
+Keep every interactive target at least 44 x 44px; the shared `Button` sizes,
+icon buttons, dropdown items, tabs, switches, and form controls follow that
+baseline.
+
+Use these class rhythms unless a project has a clear reason to diverge:
+
+```tsx
+<h1 className="text-2xl sm:text-3xl lg:text-4xl">Page title</h1>
+<p className="text-base lg:text-lg">Readable prose</p>
+<section className="grid gap-4 lg:gap-6 p-4 sm:p-6 lg:p-8" />
+```
+
+Prefer the shared `<Container>` for page-width content:
+
+```tsx
+import { Container } from '@/shared/ui'
+
+function Layout() {
+  return (
+    <Container as="main" className="py-6 sm:py-8 lg:py-10">
+      <Outlet />
+    </Container>
+  )
+}
+```
+
+Responsive code can read the current viewport using the shared hooks:
+
+```tsx
+import { useBreakpoint, useIsMobile, useMediaQuery } from '@/shared/lib'
+
+const breakpoint = useBreakpoint() // 'base' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+const isMobile = useIsMobile() // max-width: 767px
+const canHover = useMediaQuery('(hover: hover) and (pointer: fine)')
+```
+
+The canonical drawer pattern for mobile navigation is a Radix Dialog mounted
+below `md`: keep the desktop layout visible at `md+`, render a `Button
+size="icon"` or labeled 44px trigger below `md`, close the drawer on route
+change, and use logical `start` / `end` positioning so RTL layouts slide from
+the correct side.
+
+Tooltips are disabled on coarse touch pointers by default because hover is not
+reliable there. Tabs use horizontal overflow, pagination drops sibling pages
+below `sm`, and tables keep their own `overflow-auto` wrapper.
 
 ## Start A New Project
 

@@ -39,7 +39,7 @@ export function DialogContent({
       <DialogOverlay />
       <DialogPrimitive.Content
         className={cn(
-          'fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border border-zinc-200 bg-white p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out dark:border-zinc-800 dark:bg-zinc-900',
+          'fixed left-1/2 top-1/2 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border border-zinc-200 bg-white p-4 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out sm:p-6 dark:border-zinc-800 dark:bg-zinc-900',
           className,
         )}
         {...props}
@@ -48,7 +48,7 @@ export function DialogContent({
         {hideCloseButton ? null : (
           <DialogPrimitive.Close
             aria-label="Close"
-            className="absolute right-4 top-4 rounded-sm text-zinc-500 transition-colors hover:text-zinc-900 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950 dark:text-zinc-400 dark:hover:text-zinc-100 dark:focus-visible:outline-zinc-50"
+            className="absolute right-2 top-2 inline-flex size-11 items-center justify-center rounded-sm text-zinc-500 transition-colors hover:text-zinc-900 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950 sm:right-3 sm:top-3 dark:text-zinc-400 dark:hover:text-zinc-100 dark:focus-visible:outline-zinc-50"
           >
             <X className="size-4" />
           </DialogPrimitive.Close>

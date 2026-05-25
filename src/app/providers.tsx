@@ -4,7 +4,7 @@ import { I18nextProvider } from 'react-i18next'
 import { Toaster } from 'sonner'
 
 import { i18n } from '@/shared/i18n'
-import { DirectionProvider, ThemeProvider, useTheme } from '@/shared/lib'
+import { ConfirmProvider, DirectionProvider, ThemeProvider, useTheme } from '@/shared/lib'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,7 +31,7 @@ export function AppProviders({ children }: AppProvidersProps) {
       <DirectionProvider>
         <ThemeProvider>
           <QueryClientProvider client={queryClient}>
-            {children}
+            <ConfirmProvider>{children}</ConfirmProvider>
             <ThemedToaster />
           </QueryClientProvider>
         </ThemeProvider>

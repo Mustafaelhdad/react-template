@@ -4,6 +4,7 @@ export const ROUTES = {
   dashboard: '/dashboard',
   uiKit: '/ui-kit',
   sessionExpired: '/session-expired',
+  error: '/error',
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
@@ -18,4 +19,14 @@ export const ROUTE_LABELS: Record<string, string> = {
   'ui-kit': 'sidebar.uiKit',
   login: 'common.signIn',
   'session-expired': 'sessionExpired.title',
+  error: 'error.title',
+}
+
+export const ROUTE_FALLBACK_LABELS: Record<string, string> = {
+  '': 'Home',
+  dashboard: 'Dashboard',
+  'ui-kit': 'UI Kit',
+  login: 'Sign in',
+  'session-expired': 'Session expired',
+  error: 'Error',
 }

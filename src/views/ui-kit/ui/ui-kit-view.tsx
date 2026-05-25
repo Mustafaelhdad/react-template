@@ -69,7 +69,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
         {title}
       </h2>
       <Card>
-        <CardContent className="flex flex-wrap items-start gap-6 p-6">
+        <CardContent className="flex flex-wrap items-start gap-4 p-4 lg:gap-6 sm:p-6">
           {children}
         </CardContent>
       </Card>
@@ -89,7 +89,7 @@ export function UiKitView() {
     <TooltipProvider>
       <div className="space-y-10">
         <header className="space-y-2">
-          <h1 className="text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
+          <h1 className="text-2xl font-semibold tracking-normal text-zinc-950 sm:text-3xl lg:text-4xl dark:text-zinc-50">
             UI Kit
           </h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
@@ -141,25 +141,33 @@ export function UiKitView() {
         </Section>
 
         <Section title="Selection controls">
-          <div className="flex items-center gap-2">
+          <label className="flex min-h-11 items-center gap-2">
             <Checkbox id="accept" />
-            <Label htmlFor="accept">I accept the terms</Label>
-          </div>
-          <RadioGroup className="flex gap-4">
-            <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+              I accept the terms
+            </span>
+          </label>
+          <RadioGroup className="flex flex-wrap gap-x-4 gap-y-2">
+            <label className="flex min-h-11 items-center gap-2">
               <RadioGroupItem id="r-sm" name="size" value="sm" defaultChecked />
-              <Label htmlFor="r-sm">Small</Label>
-            </div>
-            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                Small
+              </span>
+            </label>
+            <label className="flex min-h-11 items-center gap-2">
               <RadioGroupItem id="r-md" name="size" value="md" />
-              <Label htmlFor="r-md">Medium</Label>
-            </div>
-            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                Medium
+              </span>
+            </label>
+            <label className="flex min-h-11 items-center gap-2">
               <RadioGroupItem id="r-lg" name="size" value="lg" />
-              <Label htmlFor="r-lg">Large</Label>
-            </div>
+              <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                Large
+              </span>
+            </label>
           </RadioGroup>
-          <div className="flex items-center gap-2">
+          <div className="flex min-h-11 items-center gap-2">
             <Switch
               checked={notify}
               onCheckedChange={setNotify}

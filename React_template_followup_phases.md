@@ -193,6 +193,10 @@ Acceptance:
 - `npm run init -- --name="X" --no-i18n` produces an app without i18n
   packages or imports; `npm install && npm run lint && npm run type-check && npm run build` all succeed on the result.
 
+> Follow-up: **Phase 28 (Configurable Default Locale)** handles projects where
+> `ar` should be the project default instead of treating `en` as the default
+> UI language.
+
 ---
 
 ## Phase 17: Routing & Layout Enhancements
@@ -284,7 +288,7 @@ Acceptance:
 
 ## Phase 20: Feedback Patterns
 
-Status: Pending
+Status: Done
 
 Tasks:
 
@@ -302,7 +306,7 @@ Acceptance:
 
 ## Phase 21: Testing Improvements
 
-Status: Pending
+Status: Completed
 
 Tasks:
 
@@ -326,7 +330,7 @@ Acceptance:
 
 ## Phase 22: Build & Performance Tooling
 
-Status: Pending
+Status: Completed
 
 Tasks:
 
@@ -347,7 +351,7 @@ Acceptance:
 
 ## Phase 23: Monitoring & Analytics Slots
 
-Status: Pending
+Status: Completed
 
 Tasks:
 
@@ -366,7 +370,7 @@ Acceptance:
 
 ## Phase 24: CI/CD Enhancements
 
-Status: Pending
+Status: Completed
 
 Tasks:
 
@@ -408,7 +412,7 @@ Acceptance:
 
 ## Phase 26: Responsive Foundation
 
-Status: Pending
+Status: Completed
 
 Goal: every view, widget, and primitive shipped in this template renders
 cleanly from a 320px mobile viewport up through ultra-wide desktop **out of
@@ -513,7 +517,7 @@ Acceptance:
 
 ## Phase 27: Layout Presets (Marketing / Sidebar Dashboard / Topnav Dashboard)
 
-Status: Pending
+Status: Completed
 
 Today the template ships exactly one shell: a top navbar plus a sidebar
 that appears under `/dashboard`. That's fine for a CRUD-style app — but
@@ -592,6 +596,58 @@ Acceptance:
 
 ---
 
+## Phase 28: Configurable Default Locale
+
+Status: Completed
+
+Goal: support projects that choose Arabic (or any other supported locale) as
+the app's primary language instead of assuming English is the default UI
+language. English may still exist as an optional fallback, but the template
+must not force an English-first experience when a project starts in `ar`.
+
+Tasks:
+
+- Split language config in [src/shared/i18n/index.ts](src/shared/i18n/index.ts)
+  into explicit `DEFAULT_LANGUAGE`, `FALLBACK_LANGUAGE`, and
+  `SUPPORTED_LANGUAGES` values. `DEFAULT_LANGUAGE` controls first render;
+  `FALLBACK_LANGUAGE` controls missing translations.
+- Add an optional `VITE_DEFAULT_LANGUAGE` and `VITE_FALLBACK_LANGUAGE`
+  override, validating both against `SUPPORTED_LANGUAGES` before passing them
+  to i18next.
+- Update i18next initialization so a fresh browser with no persisted
+  `react-template:language` value starts on `DEFAULT_LANGUAGE`, not always
+  `en`.
+- Add a small pre-React bootstrap in [index.html](index.html) or
+  [src/main.tsx](src/main.tsx) that sets `<html lang>` and `<html dir>` from
+  the configured default before first paint, preventing an LTR/English flash
+  when defaulting to `ar`.
+- Extend [scripts/use-template.mjs](scripts/use-template.mjs) with
+  `--default-language=en|ar` and `--fallback-language=en|ar|same-as-default`.
+  In interactive mode, ask for the primary language when i18n is enabled.
+- Make `--no-i18n` codemod from the chosen default language instead of always
+  reading `src/shared/i18n/en.json`, so
+  `npm run init -- --default-language=ar --no-i18n` leaves Arabic literals in
+  the generated project.
+- Update [docs/i18n.md](docs/i18n.md) so it describes "primary locale" and
+  "fallback locale" instead of saying English is always the source of truth.
+- Add tests for default locale boot, persisted language override, RTL document
+  attributes, and fallback behavior when one translation key is missing.
+
+Acceptance:
+
+- With no localStorage language set and `VITE_DEFAULT_LANGUAGE=ar`, the app
+  first renders Arabic copy and `<html lang="ar" dir="rtl">`.
+- A persisted user choice still wins over the project default.
+- `VITE_FALLBACK_LANGUAGE=ar` means missing keys do not fall back to English.
+- `npm run init -- --name="X" --default-language=ar` updates the generated
+  project config and docs to treat `ar` as the primary locale.
+- `npm run init -- --name="X" --default-language=ar --no-i18n` produces a
+  non-i18n app with Arabic literals and no i18n dependencies.
+- `npm run lint && npm run type-check && npm run test:run && npm run build`
+  pass.
+
+---
+
 ## Cross-cutting Cleanup Items
 
 These don't need their own phase but should land alongside relevant work:
@@ -632,8 +688,10 @@ If you don't want to do them strictly in phase order, this is a rough priority:
 4. **Phase 18** (API hardening) and **Phase 17** (routing/layout).
 5. **Phase 27** (Layout Presets) — once Phase 17 + 26 settle, slot this
    in so new projects can pick marketing / sidebar / topnav at init time.
-6. **Phase 15** (dark mode) and **Phase 16** (i18n) — only if you usually
-   need them; skip otherwise.
+6. **Phase 15** (dark mode), **Phase 16** (i18n), and **Phase 28**
+   (configurable default locale) — only if you usually need them; skip
+   otherwise. Land Phase 28 right after Phase 16 for apps that should start in
+   `ar` instead of `en`.
 7. The rest as time allows.
 
 ---

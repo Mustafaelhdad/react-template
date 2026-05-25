@@ -12,7 +12,7 @@ export const DropdownMenuSub = DropdownPrimitive.Sub
 export const DropdownMenuRadioGroup = DropdownPrimitive.RadioGroup
 
 const menuItemBase =
-  'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors data-[highlighted]:bg-zinc-100 data-[highlighted]:text-zinc-950 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:data-[highlighted]:bg-zinc-800 dark:data-[highlighted]:text-zinc-50'
+  'relative flex min-h-11 cursor-pointer select-none items-center gap-2 rounded-sm px-3 py-2 text-sm outline-none transition-colors data-[highlighted]:bg-zinc-100 data-[highlighted]:text-zinc-950 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:data-[highlighted]:bg-zinc-800 dark:data-[highlighted]:text-zinc-50'
 
 export function DropdownMenuContent({
   className,
@@ -24,7 +24,7 @@ export function DropdownMenuContent({
       <DropdownPrimitive.Content
         sideOffset={sideOffset}
         className={cn(
-          'z-50 min-w-[10rem] overflow-hidden rounded-md border border-zinc-200 bg-white p-1 text-zinc-900 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100',
+          'z-50 min-w-[12rem] max-w-[calc(100vw-2rem)] overflow-hidden rounded-md border border-zinc-200 bg-white p-1 text-zinc-900 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100',
           className,
         )}
         {...props}
@@ -146,7 +146,7 @@ export function DropdownMenuSubContent({
   return (
     <DropdownPrimitive.SubContent
       className={cn(
-        'z-50 min-w-[8rem] overflow-hidden rounded-md border border-zinc-200 bg-white p-1 shadow-md dark:border-zinc-800 dark:bg-zinc-900',
+        'z-50 min-w-[12rem] max-w-[calc(100vw-2rem)] overflow-hidden rounded-md border border-zinc-200 bg-white p-1 shadow-md dark:border-zinc-800 dark:bg-zinc-900',
         className,
       )}
       {...props}

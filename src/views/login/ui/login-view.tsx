@@ -28,9 +28,11 @@ export function LoginView() {
   }
 
   return (
-    <Card className="mx-auto max-w-md">
+    <Card className="mx-auto w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl tracking-normal">{t('login.title')}</CardTitle>
+        <CardTitle className="text-2xl tracking-normal sm:text-3xl">
+          {t('login.title')}
+        </CardTitle>
         <CardDescription>{t('login.description')}</CardDescription>
       </CardHeader>
 

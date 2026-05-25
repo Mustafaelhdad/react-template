@@ -4,8 +4,8 @@ The template ships with a route tree built on
 [react-router-dom](https://reactrouter.com/), code-split per view via
 `React.lazy`, error boundaries at both the app and route level, a
 breadcrumbs widget, a `RoleGuard` for role-based access, an explicit
-`/session-expired` route for the 401 interceptor, and a dashboard
-layout that collapses to a side sheet below `md`.
+`/session-expired` route for the 401 interceptor, and three layout presets:
+marketing, sidebar dashboard, and topnav dashboard.
 
 ## Where things live
 
@@ -16,9 +16,12 @@ src/app/
 └── providers.tsx         # Theme / i18n / direction / query providers
 
 src/widgets/
-├── main-layout/          # Navbar + <ScrollToTop/> + <ErrorBoundary>+<Suspense>
-├── dashboard-layout/     # Two-pane sidebar shell, collapses below md
-└── breadcrumbs/          # Trail driven by ROUTE_LABELS
+├── main-layout/                # <ScrollToTop/> + route <ErrorBoundary>+<Suspense>
+├── marketing-layout/           # Public navbar + content + footer shell
+├── dashboard-sidebar-layout/   # Sidebar shell, collapses below md
+├── dashboard-topnav-layout/    # Horizontal dashboard navigation shell
+├── app-sidebar/                # Sidebar nav used by dashboard-sidebar-layout
+└── breadcrumbs/                # Trail driven by ROUTE_LABELS
 
 src/features/auth/ui/
 ├── protected-route.tsx   # Auth gate — redirects to /login if signed out
@@ -29,7 +32,39 @@ src/views/session-expired # /session-expired landing for the 401 flow
 
 src/shared/lib/scroll-to-top.tsx
 src/shared/config/routes.ts     # ROUTES + ROUTE_LABELS
+src/shared/config/layout.ts     # LAYOUT + shared nav item metadata
 ```
+
+## Layout presets
+
+`src/shared/config/layout.ts` exports:
+
+```ts
+export const LAYOUT: 'marketing' | 'dashboard-sidebar' | 'dashboard-topnav'
+```
+
+The default is `dashboard-sidebar`. The router always exposes a public
+marketing shell for unauthenticated pages (`/`, `/login`,
+`/session-expired`, `/error`) and mounts `/ui-kit` inside the active preset so
+the kit reflects the selected shell. Authenticated dashboard routes use the
+selected dashboard preset:
+
+- `dashboard-sidebar` renders `DashboardSidebarLayout` with a collapsible
+  sidebar and thin account topbar.
+- `dashboard-topnav` renders `DashboardTopnavLayout` with horizontal route
+  links driven by `DASHBOARD_NAV_ITEMS`.
+- `marketing` keeps the active shell public, which is what the init script
+  uses for marketing-only projects.
+
+Use the init script to make the decision permanent in a new project:
+
+```bash
+npm run init -- --name="My App" --clean --layout=dashboard-topnav
+```
+
+With `--clean`, the script deletes unused layout widgets and rewrites
+`src/app/router.tsx`, `src/views/index.ts`, and `src/widgets/index.ts` so the
+result still builds.
 
 ## Adding a new route
 
@@ -41,8 +76,10 @@ src/shared/config/routes.ts     # ROUTES + ROUTE_LABELS
    breadcrumbs render a readable name. Add the matching i18n key to
    `src/shared/i18n/en.json` and any other locales.
 4. In [src/app/router.tsx](../src/app/router.tsx), add a `lazy()` import
-   and a route entry. Decide whether it lives under the
-   `<MainLayout>` (default) or inside the protected dashboard branch:
+   and a route entry. Public routes usually live under
+   `<MarketingLayout>`, demo/tool routes such as `/ui-kit` can live under
+   the active preset route, and authenticated app routes live inside the
+   protected dashboard branch:
 
    ```tsx
    const ReportsView = lazy(() =>
@@ -139,7 +176,7 @@ component.
 
 ## Responsive sidebar (`< md`)
 
-`DashboardLayout` swaps the inline sidebar for a side sheet below the
+`DashboardSidebarLayout` swaps the inline sidebar for a side sheet below the
 `md` breakpoint (768 px):
 
 - A "Navigation" button appears in the topbar.
@@ -148,8 +185,11 @@ component.
 - Navigating closes the drawer automatically (the layout watches
   `location.pathname`).
 
-The breakpoint matches Phase 26's layout convention — see
-[docs/responsive.md](responsive.md) when that phase lands its docs.
+The breakpoint matches the template's layout convention — see
+the Responsive Patterns section in [README.md](../README.md#responsive-patterns).
+
+`DashboardTopnavLayout` uses the same drawer pattern below `md`, but the drawer
+contains the horizontal dashboard nav items instead of the sidebar.
 
 ## Testing routed components
 

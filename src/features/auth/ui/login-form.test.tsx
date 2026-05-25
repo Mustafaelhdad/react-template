@@ -1,6 +1,10 @@
 import userEvent from '@testing-library/user-event'
+import { http, HttpResponse } from 'msw'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { ENDPOINTS } from '@/shared/api'
+import { env } from '@/shared/config'
+import { server } from '@/test/msw/server'
 import { renderWithProviders, screen, waitFor } from '@/test/test-utils'
 
 import { useAuthStore } from '../model/auth-store'
@@ -50,5 +54,21 @@ describe('LoginForm', () => {
         roles: ['admin', 'user'],
       },
     })
+  })
+
+  it('surfaces server errors via the parsed API error message', async () => {
+    server.use(
+      http.post(`${env.apiBaseUrl}${ENDPOINTS.auth.login}`, () =>
+        HttpResponse.json({ message: 'Account locked' }, { status: 423 }),
+      ),
+    )
+
+    const user = userEvent.setup()
+    renderWithProviders(<LoginForm />)
+
+    await user.click(screen.getByRole('button', { name: /sign in/i }))
+
+    expect(await screen.findByText(/account locked/i)).toBeInTheDocument()
+    expect(useAuthStore.getState().isAuthenticated).toBe(false)
   })
 })
