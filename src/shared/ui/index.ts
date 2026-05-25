@@ -23,7 +23,7 @@ export {
   TableHead,
   TableHeader,
   TableRow,
-} from './data-table'
+} from './table'
 export {
   Dialog,
   DialogClose,

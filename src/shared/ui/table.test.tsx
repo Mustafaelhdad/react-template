@@ -1,14 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from './data-table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './table'
 
 describe('Table primitives', () => {
   it('renders a basic table', () => {

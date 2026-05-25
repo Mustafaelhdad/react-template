@@ -138,9 +138,15 @@ These are common asks that we **intentionally** don't ship — install them in
 the consuming project when you actually need them, so the template stays
 dependency-light and unopinionated.
 
-- **shadcn/ui CLI + generated component sources.** The template ships its own
-  headless primitives so projects can layer shadcn on top without conflicts.
-  Run `npx shadcn@latest init` and target `src/shared/ui` if you want it.
+- **Heavier shadcn/ui components (DataTable, Combobox, Calendar, Command,
+  Chart, etc.).** The template ships the everyday primitives (Button, Input,
+  Dialog, Dropdown, Tooltip, Tabs, Table primitives, …) directly in
+  [src/shared/ui](src/shared/ui). For anything bigger or more opinionated, a
+  preconfigured [`components.json`](components.json) is included so
+  `npx shadcn@latest add <component>` drops the file into `src/shared/ui/`
+  with the right aliases, base color, and Tailwind v4 setup — no init step
+  needed. Heads-up: running `add` for a component that already exists will
+  overwrite the customized version, so use it for net-new additions.
 - **Sentry / PostHog / Plausible / any analytics SDK.**
   [src/shared/lib/monitoring.ts](src/shared/lib/monitoring.ts) is a no-op
   seam — `registerMonitoring()` from your app once you pick a vendor. Keeps
@@ -155,9 +161,10 @@ dependency-light and unopinionated.
 - **Storybook.** The `/ui-kit` demo view covers the same "render every
   primitive" need at near-zero cost. Add Storybook later if a project needs
   full design-system tooling.
-- **TanStack Table / TanStack Form / TanStack Router.** `<DataTable>` is a
-  light wrapper, RHF + Zod covers forms, and React Router fits most apps —
-  upgrade per-project when a real need appears.
+- **TanStack Table / TanStack Form / TanStack Router.** The shipped `<Table>`
+  primitives cover static tables, RHF + Zod covers forms, and React Router
+  fits most apps — upgrade per-project when sorting/filtering/virtualization
+  or richer form/router needs appear.
 - **release-please / semantic-release / changesets.** `commitlint` is wired,
   but release automation is project-specific.
 - **State libraries beyond Zustand.** No Redux Toolkit, Jotai, Recoil, etc.
