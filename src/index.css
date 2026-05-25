@@ -7,6 +7,34 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
+ * Route transition animation. Registered as a Tailwind v4 theme animation so
+ * it's available as the `animate-route-in` utility. Used by MainLayout to fade
+ * each route in on navigation. Disabled when the user prefers reduced motion
+ * — the @media block below zeroes the duration so the keyframes finish
+ * instantly without re-introducing the "pop" we're trying to avoid.
+ */
+@theme {
+  --animate-route-in: route-in 320ms ease-out both;
+}
+
+@keyframes route-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @theme {
+    --animate-route-in: route-in 1ms linear both;
+  }
+}
+
+/*
  * All custom element styles go inside `@layer base` so they sit BELOW
  * `@layer utilities` in the cascade. Without the layer wrapper, rules like
  * `a { color: inherit }` are unlayered and outrank every Tailwind utility

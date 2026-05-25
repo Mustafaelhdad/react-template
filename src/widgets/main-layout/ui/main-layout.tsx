@@ -32,7 +32,13 @@ export function MainLayout() {
           boundary stuck after the user navigates away. */}
       <ErrorBoundary key={location.pathname} FallbackComponent={RouteErrorFallback}>
         <Suspense fallback={<RouteSuspenseFallback />}>
-          <Outlet />
+          {/* Re-keying on pathname remounts this wrapper on each
+              navigation, which retriggers the fade-in keyframe. Route
+              components shouldn't rely on cross-navigation local state —
+              persistent state belongs in stores, React Query, or the URL. */}
+          <div key={location.pathname} className="animate-route-in">
+            <Outlet />
+          </div>
         </Suspense>
       </ErrorBoundary>
     </div>
