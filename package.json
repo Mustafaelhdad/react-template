@@ -4,6 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "description": "Reusable React + Vite + TypeScript template with feature-sliced architecture, Tailwind, React Query, Zustand, Vitest, ESLint boundaries, Husky, and GitHub Actions.",
+  "author": {
+    "name": "Mustafa Elhdad",
+    "email": "elhdadmustafa@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mustafaelhdad/react-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Mustafaelhdad/react-template/issues"
+  },
+  "homepage": "https://github.com/Mustafaelhdad/react-template#readme",
   "keywords": [
     "react",
     "vite",

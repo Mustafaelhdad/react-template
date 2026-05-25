@@ -43,9 +43,9 @@ keep all layout widgets so you can change the constant later.
 
 | Preset            | 320px preview                                                                              | 1280px preview                                                                               |
 | ----------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
-| Marketing         | ![Marketing layout at 320px](docs/assets/layout-presets/marketing-320.svg)                 | ![Marketing layout at 1280px](docs/assets/layout-presets/marketing-1280.svg)                 |
-| Sidebar dashboard | ![Sidebar dashboard layout at 320px](docs/assets/layout-presets/dashboard-sidebar-320.svg) | ![Sidebar dashboard layout at 1280px](docs/assets/layout-presets/dashboard-sidebar-1280.svg) |
-| Topnav dashboard  | ![Topnav dashboard layout at 320px](docs/assets/layout-presets/dashboard-topnav-320.svg)   | ![Topnav dashboard layout at 1280px](docs/assets/layout-presets/dashboard-topnav-1280.svg)   |
+| Marketing         | ![Marketing layout at 320px](docs/assets/layout-presets/marketing-320.png)                 | ![Marketing layout at 1280px](docs/assets/layout-presets/marketing-1280.png)                 |
+| Sidebar dashboard | ![Sidebar dashboard layout at 320px](docs/assets/layout-presets/dashboard-sidebar-320.png) | ![Sidebar dashboard layout at 1280px](docs/assets/layout-presets/dashboard-sidebar-1280.png) |
+| Topnav dashboard  | ![Topnav dashboard layout at 320px](docs/assets/layout-presets/dashboard-topnav-320.png)   | ![Topnav dashboard layout at 1280px](docs/assets/layout-presets/dashboard-topnav-1280.png)   |
 
 Preset cleanup examples:
 
@@ -108,6 +108,63 @@ npm run test          Run Vitest in watch mode
 npm run test:run      Run Vitest once
 npm run test:coverage Run Vitest once with a v8 coverage report
 ```
+
+## What's in the Box
+
+| Area           | Included                                                                                                                                                                                                                             |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Framework      | React 19, Vite, TypeScript (strict)                                                                                                                                                                                                  |
+| Styling        | Tailwind v4, `cn()` helper, light / dark / system theme with no-FOUC inline script                                                                                                                                                   |
+| Routing        | React Router v7, lazy routes, route + top-level `ErrorBoundary`, `ScrollToTop`, `RoleGuard`, breadcrumbs, `/session-expired`                                                                                                         |
+| State          | Zustand (mock auth store) with `persist` middleware                                                                                                                                                                                  |
+| Data layer     | Axios with request / response interceptors (Bearer token, 401 → `/session-expired`), TanStack Query defaults, `parseApiError`, `useApiMutation`                                                                                      |
+| Forms          | React Hook Form + Zod, `<FormField>` wrapper, `useZodForm`, shared validators, drag-and-drop `FileUpload`                                                                                                                            |
+| UI primitives  | ~25 headless components in `src/shared/ui` (Dialog / Tabs / Tooltip / DropdownMenu via Radix; rest custom) plus a live `/ui-kit` demo view                                                                                           |
+| Feedback       | `sonner` toasts, `useConfirm()` promise-based dialog, `ErrorFallback` + dedicated `/error` view                                                                                                                                      |
+| Hooks          | `useDebounce`, `useDebouncedCallback`, `useLocalStorage`, `useMediaQuery`, `useBreakpoint`, `useIsMobile`, `useDisclosure`, `useCopyToClipboard`, `useIsMounted`, `useOnClickOutside`, `usePagination`, `usePrevious`, `useInterval` |
+| i18n / RTL     | i18next + react-i18next, EN / AR resources, language switcher, `useDirection()`, configurable `DEFAULT_LANGUAGE` / `FALLBACK_LANGUAGE`                                                                                               |
+| Architecture   | Feature-Sliced layers (`app` → `views` → `widgets` → `features` → `entities` → `shared`) enforced by `eslint-plugin-boundaries`                                                                                                      |
+| Testing        | Vitest + Testing Library + MSW (tests **and** `VITE_ENABLE_MSW=true` dev), coverage via `npm run test:coverage`                                                                                                                      |
+| Build & perf   | rolldown-vite, `vite-plugin-svgr`, `rollup-plugin-visualizer`, pinned vendor chunks, `npm run size:check` gzip budget                                                                                                                |
+| Layout presets | Three compile-time presets — `marketing`, `dashboard-sidebar`, `dashboard-topnav` — switchable via `src/shared/config/layout.ts` or `--layout=`                                                                                      |
+| Responsive     | Mobile-first defaults, `<Container>`, `BreakpointIndicator` (dev-only), 44 × 44 px touch targets, mobile drawer pattern documented                                                                                                   |
+| Monitoring     | Vendor-neutral `captureError` / `captureEvent` seam (no SDK installed)                                                                                                                                                               |
+| CI / CD        | GitHub Actions: format → lint → type-check → test → build → bundle-size; CodeQL weekly; Dependabot; parked Vercel / Netlify / GH Pages deploy job                                                                                    |
+| DX             | Husky + lint-staged + commitlint, EditorConfig, VS Code recommendations, PR / issue templates, CODEOWNERS stub, `npm run init` rename script                                                                                         |
+
+## What We Deliberately Left Out
+
+These are common asks that we **intentionally** don't ship — install them in
+the consuming project when you actually need them, so the template stays
+dependency-light and unopinionated.
+
+- **shadcn/ui CLI + generated component sources.** The template ships its own
+  headless primitives so projects can layer shadcn on top without conflicts.
+  Run `npx shadcn@latest init` and target `src/shared/ui` if you want it.
+- **Sentry / PostHog / Plausible / any analytics SDK.**
+  [src/shared/lib/monitoring.ts](src/shared/lib/monitoring.ts) is a no-op
+  seam — `registerMonitoring()` from your app once you pick a vendor. Keeps
+  bundles clean by default.
+- **Playwright (or any E2E framework).** Heavy and opinionated. Recommended
+  per-project; see [docs/testing.md](docs/testing.md).
+- **`vite-plugin-pwa` / service workers.** Opt-in per project; documented in
+  [docs/build-and-performance.md](docs/build-and-performance.md).
+- **A real backend or auth provider.** Auth is mock-only (Zustand + persisted
+  `localStorage`). Replace with backend-owned sessions and `httpOnly` cookies
+  before shipping anything real.
+- **Storybook.** The `/ui-kit` demo view covers the same "render every
+  primitive" need at near-zero cost. Add Storybook later if a project needs
+  full design-system tooling.
+- **TanStack Table / TanStack Form / TanStack Router.** `<DataTable>` is a
+  light wrapper, RHF + Zod covers forms, and React Router fits most apps —
+  upgrade per-project when a real need appears.
+- **release-please / semantic-release / changesets.** `commitlint` is wired,
+  but release automation is project-specific.
+- **State libraries beyond Zustand.** No Redux Toolkit, Jotai, Recoil, etc.
+  The auth store demonstrates the pattern; add what the project actually
+  needs.
+- **`LICENSE` choices besides MIT.** The template ships MIT; swap it out per
+  project if your team prefers Apache-2.0, BSL, proprietary, etc.
 
 ## Architecture
 

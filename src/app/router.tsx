@@ -9,12 +9,21 @@ import { createBrowserRouter } from 'react-router-dom'
 
 import { ProtectedRoute } from '@/features/auth'
 import { LAYOUT } from '@/shared/config'
+import { ErrorView } from '@/views/error'
 import { MainLayout } from '@/widgets/main-layout'
 
 // Each view is loaded on demand so the initial bundle stays lean — the
 // network tab should show one chunk per route the first time the user
 // visits it. `lazy()` requires a default export, so we adapt the named
 // exports inline.
+//
+// `ErrorView` is the exception: it backs the error boundaries in
+// `MainLayout` and `ErrorFallback`, which must render synchronously when
+// something throws — they can't `await` an import mid-error. Those static
+// importers pin it to the initial chunk regardless, so wrapping it in
+// `lazy()` here would just stall the `/error` route behind a suspense
+// boundary for code that's already loaded (and emit Rollup's
+// INEFFECTIVE_DYNAMIC_IMPORT warning).
 const HomeView = lazy(() => import('@/views/home').then((m) => ({ default: m.HomeView })))
 const LoginView = lazy(() =>
   import('@/views/login').then((m) => ({ default: m.LoginView })),
@@ -27,9 +36,6 @@ const NotFoundView = lazy(() =>
 )
 const SessionExpiredView = lazy(() =>
   import('@/views/session-expired').then((m) => ({ default: m.SessionExpiredView })),
-)
-const ErrorView = lazy(() =>
-  import('@/views/error').then((m) => ({ default: m.ErrorView })),
 )
 const MarketingLayout = lazy(() =>
   import('@/widgets/marketing-layout').then((m) => ({ default: m.MarketingLayout })),
