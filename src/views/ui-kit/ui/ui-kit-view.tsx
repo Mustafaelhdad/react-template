@@ -32,11 +32,14 @@ import {
   FormField,
   Input,
   Label,
+  MultiSelect,
   NumberInput,
   Pagination,
   RadioGroup,
   RadioGroupItem,
+  SearchableSelect,
   Select,
+  type SelectOption,
   Separator,
   Skeleton,
   Spinner,
@@ -64,6 +67,13 @@ const demoFormSchema = z.object({
   bio: z.string().max(280).optional(),
 })
 
+const countryOptions: SelectOption[] = [
+  { value: 'eg', label: 'Egypt' },
+  { value: 'sa', label: 'Saudi Arabia' },
+  { value: 'ae', label: 'United Arab Emirates' },
+  { value: 'us', label: 'United States' },
+]
+
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="space-y-3">
@@ -86,6 +96,8 @@ export function UiKitView() {
   const [quantity, setQuantity] = useState('')
   const [age, setAge] = useState('')
   const [birthDate, setBirthDate] = useState('')
+  const [country, setCountry] = useState<SelectOption | null>(null)
+  const [languages, setLanguages] = useState<readonly SelectOption[]>([])
   const demoForm = useZodForm(demoFormSchema, {
     defaultValues: { name: '', email: '', bio: '' },
   })
@@ -162,6 +174,27 @@ export function UiKitView() {
           <div className="grid w-full max-w-md gap-2">
             <Label htmlFor="birthDate">Date field</Label>
             <DateField id="birthDate" value={birthDate} onValueChange={setBirthDate} />
+          </div>
+          <div className="grid w-full max-w-md gap-2">
+            <Label htmlFor="country">Searchable select</Label>
+            <SearchableSelect
+              inputId="country"
+              options={countryOptions}
+              value={country}
+              onChange={(option) => setCountry(option)}
+              placeholder="Select a country"
+              isClearable
+            />
+          </div>
+          <div className="grid w-full max-w-md gap-2">
+            <Label htmlFor="languages">Multi select</Label>
+            <MultiSelect
+              inputId="languages"
+              options={countryOptions}
+              value={languages}
+              onChange={(selected) => setLanguages(selected)}
+              placeholder="Select languages"
+            />
           </div>
         </Section>
 

@@ -65,6 +65,13 @@ export { LoadingScreen } from './loading-screen'
 export { NumberInput } from './number-input'
 export { Pagination } from './pagination'
 export { RadioGroup, RadioGroupItem } from './radio-group'
+export {
+  MultiSelect,
+  SearchableSelect,
+  type MultiSelectProps,
+  type SearchableSelectProps,
+  type SelectOption,
+} from './searchable-select'
 export { Select } from './select'
 export { Separator } from './separator'
 export { Skeleton } from './skeleton'
