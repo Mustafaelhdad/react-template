@@ -8,7 +8,7 @@ import {
   PanelsTopLeft,
   X,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
@@ -21,6 +21,8 @@ import { Breadcrumbs } from '@/widgets/breadcrumbs'
 import { LanguageSwitcher } from '@/widgets/language-switcher'
 import { ThemeToggle } from '@/widgets/theme-toggle'
 
+import { useSidebarStore } from '../model/sidebar-store'
+
 /**
  * Sidebar-dominant dashboard preset:
  *
@@ -32,7 +34,8 @@ export function DashboardSidebarLayout() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const drawer = useDisclosure()
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const sidebarCollapsed = useSidebarStore((state) => state.collapsed)
+  const toggleSidebarCollapsed = useSidebarStore((state) => state.toggleCollapsed)
   const { pathname } = useLocation()
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const user = useAuthStore((state) => state.user)
@@ -109,7 +112,7 @@ export function DashboardSidebarLayout() {
               aria-label={
                 sidebarCollapsed ? t('layout.expandSidebar') : t('layout.collapseSidebar')
               }
-              onClick={() => setSidebarCollapsed((current) => !current)}
+              onClick={toggleSidebarCollapsed}
             >
               {sidebarCollapsed ? (
                 <PanelLeftOpen className="size-5 rtl:rotate-180" aria-hidden="true" />
