@@ -12,6 +12,7 @@ export {
   type CaptureEventProps,
   type MonitoringAdapter,
 } from './monitoring'
+export { appQueryClient } from './query-client'
 export { ScrollToTop } from './scroll-to-top'
 export { storage } from './storage'
 export { ThemeProvider, useTheme, type ResolvedTheme, type Theme } from './theme'

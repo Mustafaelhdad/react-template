@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
   Checkbox,
+  DateField,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -84,6 +85,7 @@ export function UiKitView() {
   const [files, setFiles] = useState<File[]>([])
   const [quantity, setQuantity] = useState('')
   const [age, setAge] = useState('')
+  const [birthDate, setBirthDate] = useState('')
   const demoForm = useZodForm(demoFormSchema, {
     defaultValues: { name: '', email: '', bio: '' },
   })
@@ -156,6 +158,10 @@ export function UiKitView() {
           <div className="grid w-full max-w-md gap-2">
             <Label htmlFor="age">Age (text field)</Label>
             <NumberInput id="age" value={age} onChange={setAge} placeholder="0" />
+          </div>
+          <div className="grid w-full max-w-md gap-2">
+            <Label htmlFor="birthDate">Date field</Label>
+            <DateField id="birthDate" value={birthDate} onValueChange={setBirthDate} />
           </div>
         </Section>
 

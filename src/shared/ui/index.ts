@@ -14,6 +14,7 @@ export {
 export { Checkbox } from './checkbox'
 export { ConfirmDialog, type ConfirmDialogProps } from './confirm-dialog'
 export { Container } from './container'
+export { DateField } from './date-field'
 export {
   Table,
   TableBody,

@@ -14,7 +14,7 @@ export function Select({ className, children, ...props }: SelectProps) {
   return (
     <select
       className={cn(
-        'flex min-h-11 w-full cursor-pointer appearance-none rounded-md border border-zinc-300 bg-white bg-[length:1.25rem] bg-[right_0.5rem_center] bg-no-repeat px-3 py-2 pr-8 text-sm text-zinc-950 shadow-sm transition-colors focus:border-zinc-950 focus:outline-none disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:opacity-70 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50 dark:focus:border-zinc-200 dark:disabled:bg-zinc-800',
+        'flex min-h-11 w-full cursor-pointer appearance-none rounded-md border border-zinc-300 bg-white bg-[length:1.25rem] bg-[right_0.5rem_center] bg-no-repeat px-3 py-2 pr-8 text-start text-sm text-zinc-950 shadow-sm transition-colors focus:border-zinc-950 focus:outline-none disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:opacity-70 rtl:bg-[left_0.5rem_center] rtl:pl-8 rtl:pr-3 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50 dark:focus:border-zinc-200 dark:disabled:bg-zinc-800',
         className,
       )}
       style={{

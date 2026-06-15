@@ -9,7 +9,7 @@ export function Textarea({ className, rows = 4, ...props }: TextareaProps) {
     <textarea
       rows={rows}
       className={cn(
-        'flex w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-950 shadow-sm transition-colors placeholder:text-zinc-400 focus:border-zinc-950 focus:outline-none disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:opacity-70 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:border-zinc-200 dark:disabled:bg-zinc-800',
+        'flex w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-start text-sm text-zinc-950 shadow-sm transition-colors placeholder:text-zinc-400 focus:border-zinc-950 focus:outline-none disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:opacity-70 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:border-zinc-200 dark:disabled:bg-zinc-800',
         className,
       )}
       {...props}

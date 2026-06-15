@@ -29,10 +29,10 @@ describe('parseApiError', () => {
     })
   })
 
-  it('falls back to the axios message when no server message exists', () => {
+  it('localizes known axios messages when no server message exists', () => {
     const error = buildAxiosError(500, null, 'Network Error')
     expect(parseApiError(error)).toEqual({
-      message: 'Network Error',
+      message: 'Unable to reach the server. Check your connection and try again.',
       status: 500,
     })
   })

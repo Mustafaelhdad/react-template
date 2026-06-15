@@ -97,5 +97,16 @@
   "validation": {
     "email": "Enter a valid email address",
     "passwordMin": "Password must be at least 6 characters"
+  },
+  "dateField": {
+    "placeholder": "dd/mm/yyyy",
+    "clear": "Clear date"
+  },
+  "errors": {
+    "default": "Something went wrong. Please try again.",
+    "csrfMismatch": "Your session has expired. Refresh the page and try again.",
+    "networkError": "Unable to reach the server. Check your connection and try again.",
+    "unauthenticated": "Your session has expired. Please sign in again.",
+    "invalidCredentials": "Invalid email or password."
   }
 }
