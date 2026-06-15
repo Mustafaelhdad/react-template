@@ -31,34 +31,36 @@ export function ErrorView({ error, onReset }: ErrorViewProps) {
   const message = getErrorMessage(error)
 
   return (
-    <Card className="mx-auto w-full max-w-lg text-center">
-      <CardContent className="p-4 sm:p-6">
-        <p className="text-sm font-medium text-red-600 dark:text-red-400">
-          {t('error.tag')}
-        </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-normal text-zinc-950 sm:text-3xl dark:text-zinc-50">
-          {t('error.title')}
-        </h1>
-        <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          {t('error.description')}
-        </p>
-        {message ? (
-          <pre className="mt-4 max-h-32 overflow-auto rounded-md bg-zinc-100 px-3 py-2 text-start text-xs text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
-            {message}
-          </pre>
-        ) : null}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-          {onReset ? (
-            <Button onClick={onReset}>
-              <RotateCcw className="size-4" aria-hidden="true" />
-              {t('error.retry')}
-            </Button>
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <Card className="mx-auto w-full max-w-lg text-center">
+        <CardContent className="p-4 sm:p-6">
+          <p className="text-sm font-medium text-red-600 dark:text-red-400">
+            {t('error.tag')}
+          </p>
+          <h1 className="mt-2 text-2xl font-semibold tracking-normal text-zinc-950 sm:text-3xl dark:text-zinc-50">
+            {t('error.title')}
+          </h1>
+          <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            {t('error.description')}
+          </p>
+          {message ? (
+            <pre className="mt-4 max-h-32 overflow-auto rounded-md bg-zinc-100 px-3 py-2 text-start text-xs text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+              {message}
+            </pre>
           ) : null}
-          <Link to={ROUTES.home} className={buttonVariants({ variant: 'secondary' })}>
-            {t('error.backHome')}
-          </Link>
-        </div>
-      </CardContent>
-    </Card>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            {onReset ? (
+              <Button onClick={onReset}>
+                <RotateCcw className="size-4" aria-hidden="true" />
+                {t('error.retry')}
+              </Button>
+            ) : null}
+            <Link to={ROUTES.home} className={buttonVariants({ variant: 'secondary' })}>
+              {t('error.backHome')}
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
