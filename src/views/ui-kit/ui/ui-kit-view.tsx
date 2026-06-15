@@ -31,6 +31,7 @@ import {
   FormField,
   Input,
   Label,
+  NumberInput,
   Pagination,
   RadioGroup,
   RadioGroupItem,
@@ -81,6 +82,8 @@ export function UiKitView() {
   const [page, setPage] = useState(1)
   const [notify, setNotify] = useState(true)
   const [files, setFiles] = useState<File[]>([])
+  const [quantity, setQuantity] = useState('')
+  const [age, setAge] = useState('')
   const demoForm = useZodForm(demoFormSchema, {
     defaultValues: { name: '', email: '', bio: '' },
   })
@@ -137,6 +140,22 @@ export function UiKitView() {
               <option value="design">Designer</option>
               <option value="pm">Product manager</option>
             </Select>
+          </div>
+          <div className="grid w-full max-w-md gap-2">
+            <Label htmlFor="quantity">Quantity (with controls)</Label>
+            <NumberInput
+              id="quantity"
+              controls
+              min={0}
+              max={10}
+              value={quantity}
+              onChange={setQuantity}
+              placeholder="0"
+            />
+          </div>
+          <div className="grid w-full max-w-md gap-2">
+            <Label htmlFor="age">Age (text field)</Label>
+            <NumberInput id="age" value={age} onChange={setAge} placeholder="0" />
           </div>
         </Section>
 

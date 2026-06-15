@@ -1,6 +1,7 @@
 export { cn } from './cn'
 export { ConfirmProvider, useConfirm, type ConfirmOptions } from './confirm'
 export { DirectionProvider, useDirection, type Direction } from './direction'
+export { sanitizeNumericInput, toEnglishDigits } from './digits'
 export * from './hooks'
 export {
   captureError,
