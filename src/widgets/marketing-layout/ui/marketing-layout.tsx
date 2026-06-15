@@ -1,5 +1,4 @@
-import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { Home, LogIn, Menu, PanelsTopLeft, Sparkles, X } from 'lucide-react'
+import { Home, LogIn, Menu, PanelsTopLeft, Sparkles } from 'lucide-react'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
@@ -8,6 +7,7 @@ import { LAYOUT, MARKETING_NAV_ITEMS, ROUTES, type NavIconKey } from '@/shared/c
 import { cn, useDisclosure } from '@/shared/lib'
 import { Button, buttonVariants, Container } from '@/shared/ui'
 import { LanguageSwitcher } from '@/widgets/language-switcher'
+import { Brand, MobileNavDrawer } from '@/widgets/navbar'
 import { ThemeToggle } from '@/widgets/theme-toggle'
 
 const icons: Record<NavIconKey, typeof Home> = {
@@ -63,15 +63,7 @@ export function MarketingLayout() {
     <div className="flex min-h-screen flex-col">
       <header className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
         <Container className="flex min-h-16 items-center justify-between gap-3 sm:gap-4">
-          <Link
-            to={ROUTES.home}
-            className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-zinc-950 dark:text-zinc-50"
-          >
-            <span className="grid size-8 place-items-center rounded-md bg-emerald-600 text-white">
-              <PanelsTopLeft className="size-4" aria-hidden="true" />
-            </span>
-            {t('common.appName')}
-          </Link>
+          <Brand to={ROUTES.home} />
 
           <nav className="hidden items-center gap-1 md:flex" aria-label={t('nav.main')}>
             <MarketingNavLinks />
@@ -88,8 +80,13 @@ export function MarketingLayout() {
             ) : null}
           </div>
 
-          <DialogPrimitive.Root open={drawer.isOpen} onOpenChange={drawer.setOpen}>
-            <DialogPrimitive.Trigger asChild>
+          <MobileNavDrawer
+            open={drawer.isOpen}
+            onOpenChange={drawer.setOpen}
+            side="end"
+            title={t('layout.navigation')}
+            contentClassName="w-[20rem] grid-rows-[auto_1fr_auto]"
+            trigger={
               <Button
                 variant="ghost"
                 size="icon"
@@ -98,51 +95,29 @@ export function MarketingLayout() {
               >
                 <Menu className="size-5" aria-hidden="true" />
               </Button>
-            </DialogPrimitive.Trigger>
-            <DialogPrimitive.Portal>
-              <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 dark:bg-black/70" />
-              <DialogPrimitive.Content
-                aria-describedby={undefined}
-                className="fixed inset-y-0 end-0 z-50 grid h-full w-[20rem] max-w-[85vw] grid-rows-[auto_1fr_auto] gap-4 bg-white p-4 shadow-xl border-s border-zinc-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right rtl:data-[state=closed]:slide-out-to-left rtl:data-[state=open]:slide-in-from-left dark:border-zinc-800 dark:bg-zinc-900"
-              >
-                <div className="flex items-center justify-between">
-                  <DialogPrimitive.Title className="text-base font-semibold text-zinc-950 dark:text-zinc-50">
-                    {t('layout.navigation')}
-                  </DialogPrimitive.Title>
-                  <DialogPrimitive.Close asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      aria-label={t('layout.closeMenu')}
-                    >
-                      <X className="size-5" aria-hidden="true" />
-                    </Button>
-                  </DialogPrimitive.Close>
-                </div>
+            }
+          >
+            <nav className="grid gap-1" aria-label={t('nav.main')}>
+              <MarketingNavLinks onNavigate={drawer.close} />
+            </nav>
 
-                <nav className="grid gap-1" aria-label={t('nav.main')}>
-                  <MarketingNavLinks onNavigate={drawer.close} />
-                </nav>
-
-                <div className="grid gap-3 border-t border-zinc-200 pt-4 dark:border-zinc-800">
-                  <div className="flex items-center justify-between gap-2">
-                    <LanguageSwitcher />
-                    <ThemeToggle />
-                  </div>
-                  {showAuthCta ? (
-                    <Link
-                      to={ROUTES.login}
-                      className={buttonVariants({ size: 'md', className: 'w-full' })}
-                      onClick={drawer.close}
-                    >
-                      <LogIn className="size-4" aria-hidden="true" />
-                      {t('common.signIn')}
-                    </Link>
-                  ) : null}
-                </div>
-              </DialogPrimitive.Content>
-            </DialogPrimitive.Portal>
-          </DialogPrimitive.Root>
+            <div className="grid gap-3 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+              <div className="flex items-center justify-between gap-2">
+                <LanguageSwitcher />
+                <ThemeToggle />
+              </div>
+              {showAuthCta ? (
+                <Link
+                  to={ROUTES.login}
+                  className={buttonVariants({ size: 'md', className: 'w-full' })}
+                  onClick={drawer.close}
+                >
+                  <LogIn className="size-4" aria-hidden="true" />
+                  {t('common.signIn')}
+                </Link>
+              ) : null}
+            </div>
+          </MobileNavDrawer>
         </Container>
       </header>
 

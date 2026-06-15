@@ -1,23 +1,14 @@
-import * as DialogPrimitive from '@radix-ui/react-dialog'
-import {
-  LayoutDashboard,
-  LogIn,
-  LogOut,
-  Menu,
-  PanelsTopLeft,
-  Sparkles,
-  X,
-} from 'lucide-react'
+import { LayoutDashboard, Menu, Sparkles } from 'lucide-react'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 
-import { useAuthStore } from '@/features/auth'
 import { DASHBOARD_NAV_ITEMS, ROUTES, type NavIconKey } from '@/shared/config'
-import { cn, notify, useDisclosure } from '@/shared/lib'
-import { Button, buttonVariants, Container } from '@/shared/ui'
+import { cn, useDisclosure } from '@/shared/lib'
+import { Button, Container } from '@/shared/ui'
 import { Breadcrumbs } from '@/widgets/breadcrumbs'
 import { LanguageSwitcher } from '@/widgets/language-switcher'
+import { Brand, MobileNavDrawer, NavbarAuthActions } from '@/widgets/navbar'
 import { ThemeToggle } from '@/widgets/theme-toggle'
 
 const icons: Record<NavIconKey, typeof LayoutDashboard> = {
@@ -60,38 +51,20 @@ function DashboardNavLinks({ onNavigate }: { onNavigate?: () => void }) {
 
 export function DashboardTopnavLayout() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
   const drawer = useDisclosure()
   const { pathname } = useLocation()
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
-  const user = useAuthStore((state) => state.user)
-  const logout = useAuthStore((state) => state.logout)
 
   useEffect(() => {
     drawer.close()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
-  const handleSignOut = () => {
-    logout()
-    notify.info(t('common.signedOut'))
-    navigate(ROUTES.login)
-  }
-
   return (
     <div className="flex min-h-screen flex-col">
       <header className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
         <Container className="flex min-h-16 max-w-screen-2xl items-center justify-between gap-3 sm:gap-4">
           <div className="flex min-w-0 items-center gap-3">
-            <Link
-              to={ROUTES.dashboard}
-              className="inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-semibold text-zinc-950 dark:text-zinc-50"
-            >
-              <span className="grid size-8 place-items-center rounded-md bg-emerald-600 text-white">
-                <PanelsTopLeft className="size-4" aria-hidden="true" />
-              </span>
-              <span className="hidden sm:inline">{t('common.appName')}</span>
-            </Link>
+            <Brand to={ROUTES.dashboard} responsiveLabel className="shrink-0" />
 
             <nav
               className="hidden items-center gap-1 md:flex"
@@ -106,27 +79,15 @@ export function DashboardTopnavLayout() {
               <LanguageSwitcher />
               <ThemeToggle />
             </div>
-            {isAuthenticated ? (
-              <>
-                {user?.name ? (
-                  <span className="hidden max-w-40 truncate text-sm font-medium text-zinc-600 lg:inline dark:text-zinc-400">
-                    {user.name}
-                  </span>
-                ) : null}
-                <Button variant="secondary" size="sm" onClick={handleSignOut}>
-                  <LogOut className="size-4" aria-hidden="true" />
-                  <span className="hidden sm:inline">{t('common.signOut')}</span>
-                </Button>
-              </>
-            ) : (
-              <Link to={ROUTES.login} className={buttonVariants({ size: 'sm' })}>
-                <LogIn className="size-4" aria-hidden="true" />
-                <span className="hidden sm:inline">{t('common.signIn')}</span>
-              </Link>
-            )}
+            <NavbarAuthActions />
 
-            <DialogPrimitive.Root open={drawer.isOpen} onOpenChange={drawer.setOpen}>
-              <DialogPrimitive.Trigger asChild>
+            <MobileNavDrawer
+              open={drawer.isOpen}
+              onOpenChange={drawer.setOpen}
+              side="end"
+              title={t('layout.navigation')}
+              contentClassName="w-[20rem] grid-rows-[auto_1fr_auto]"
+              trigger={
                 <Button
                   variant="ghost"
                   size="icon"
@@ -135,39 +96,17 @@ export function DashboardTopnavLayout() {
                 >
                   <Menu className="size-5" aria-hidden="true" />
                 </Button>
-              </DialogPrimitive.Trigger>
-              <DialogPrimitive.Portal>
-                <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 dark:bg-black/70" />
-                <DialogPrimitive.Content
-                  aria-describedby={undefined}
-                  className="fixed inset-y-0 end-0 z-50 grid h-full w-[20rem] max-w-[85vw] grid-rows-[auto_1fr_auto] gap-4 bg-white p-4 shadow-xl border-s border-zinc-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right rtl:data-[state=closed]:slide-out-to-left rtl:data-[state=open]:slide-in-from-left dark:border-zinc-800 dark:bg-zinc-900"
-                >
-                  <div className="flex items-center justify-between">
-                    <DialogPrimitive.Title className="text-base font-semibold text-zinc-950 dark:text-zinc-50">
-                      {t('layout.navigation')}
-                    </DialogPrimitive.Title>
-                    <DialogPrimitive.Close asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        aria-label={t('layout.closeMenu')}
-                      >
-                        <X className="size-5" aria-hidden="true" />
-                      </Button>
-                    </DialogPrimitive.Close>
-                  </div>
+              }
+            >
+              <nav className="grid gap-1" aria-label={t('nav.dashboardMain')}>
+                <DashboardNavLinks onNavigate={drawer.close} />
+              </nav>
 
-                  <nav className="grid gap-1" aria-label={t('nav.dashboardMain')}>
-                    <DashboardNavLinks onNavigate={drawer.close} />
-                  </nav>
-
-                  <div className="flex items-center justify-between gap-2 border-t border-zinc-200 pt-4 dark:border-zinc-800">
-                    <LanguageSwitcher />
-                    <ThemeToggle />
-                  </div>
-                </DialogPrimitive.Content>
-              </DialogPrimitive.Portal>
-            </DialogPrimitive.Root>
+              <div className="flex items-center justify-between gap-2 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+                <LanguageSwitcher />
+                <ThemeToggle />
+              </div>
+            </MobileNavDrawer>
           </div>
         </Container>
       </header>
