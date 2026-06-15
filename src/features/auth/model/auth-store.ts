@@ -13,6 +13,7 @@ type AuthState = {
 
 type AuthActions = {
   setSession: (session: AuthSession) => void
+  setUser: (user: AuthSession['user']) => void
   logout: () => void
 }
 
@@ -34,6 +35,9 @@ export const useAuthStore = create<AuthStore>()(
           accessToken: session.accessToken,
           isAuthenticated: true,
         })
+      },
+      setUser: (user) => {
+        set({ user })
       },
       logout: () => {
         set(initialState)

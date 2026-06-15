@@ -1,5 +1,8 @@
+export { getMe } from './api/get-me'
 export { login } from './api/login'
 export { loginSchema } from './lib/login-schema'
+export { useSessionQuery } from './lib/use-session'
+export { authKeys } from './model/auth-keys'
 export { useAuthStore } from './model/auth-store'
 export type { AuthSession, LoginCredentials } from './model/auth.types'
 export { LoginForm } from './ui/login-form'
